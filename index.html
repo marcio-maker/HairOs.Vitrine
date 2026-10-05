@@ -234,32 +234,40 @@
       padding:0;
       gap:0;
       align-items:stretch;
-      justify-content:flex-end;
+      justify-content:flex-start;
+      flex-direction:column;
     }
 
+    /* Stage em cima, ocupa espaço restante. SEM position:absolute. */
     .modal-stage{
-      position:absolute;
-      inset:0 0 auto 0;
-      height:100%;
-      padding:64px 12px 0;
+      position:relative;
+      inset:auto;
+      flex:1 1 auto;
+      min-height:0;
+      width:100%;
+      height:auto;
+      padding:64px 12px 12px;
     }
     .modal-stage img{
-      max-height:calc(100dvh - 64px - 40vh);
+      max-width:100%;
+      max-height:100%;
       border-radius:10px;
     }
 
+    /* Setas flutuando na base da imagem */
     .modal-nav{
       top:auto;
-      bottom:calc(40vh + 14px);
+      bottom:16px;
       transform:none;
       width:40px;height:40px;
       background:rgba(10,8,8,.72);
       border-color:rgba(212,176,122,.35);
       backdrop-filter:blur(10px);
       -webkit-backdrop-filter:blur(10px);
+      z-index:3;
     }
-    .modal-nav.prev{left:10px}
-    .modal-nav.next{right:10px}
+    .modal-nav.prev{left:12px}
+    .modal-nav.next{right:12px}
 
     .modal-fechar{
       top:12px;right:12px;
@@ -267,16 +275,19 @@
       z-index:5;
     }
 
+    /* Bottom sheet: flui ABAIXO da imagem, sem sobrepor */
     .modal-info{
       position:relative;
+      flex:0 0 auto;
       width:100%;
-      max-height:40vh;
+      max-height:42vh;
       background:var(--bg-card);
       border-top:1px solid var(--border-gold);
       border-radius:18px 18px 0 0;
       padding:22px 20px calc(20px + env(safe-area-inset-bottom,0px));
       text-align:center;
       box-shadow:0 -20px 60px rgba(0,0,0,.55);
+      overflow-y:auto;
       overscroll-behavior:contain;
       -webkit-overflow-scrolling:touch;
       animation:sheetUp .4s var(--ease-luxury);
@@ -307,7 +318,7 @@
   }
 
   @media (max-width:380px){
-    .modal-info{max-height:44vh;padding:20px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+    .modal-info{max-height:46vh;padding:20px 16px calc(18px + env(safe-area-inset-bottom,0px))}
     .thumb{width:40px;height:52px}
   }
 
@@ -769,14 +780,13 @@ let corteAtual = 0, anguloAtual = 0, ultimoFoco = null;
 let zoomAtivo = false;
 aplicarFallback(imgModal);
 
-/* Detecta se é dispositivo com mouse/trackpad (auto-hide só nesses) */
 function isDesktopPointer(){
   return window.matchMedia("(hover:hover) and (pointer:fine)").matches;
 }
 
 let uiTimer = null;
 function mostrarUI(){
-  if (!isDesktopPointer()) return; // mobile: botões sempre visíveis
+  if (!isDesktopPointer()) return;
   modal.classList.remove("ui-oculta");
   clearTimeout(uiTimer);
   uiTimer = setTimeout(() => {
@@ -901,7 +911,6 @@ btnFechar.addEventListener("click", closeModal);
 btnPrev.addEventListener("click", () => mostrar(corteAtual, anguloAtual - 1, true));
 btnNext.addEventListener("click", () => mostrar(corteAtual, anguloAtual + 1, true));
 
-/* Clique fora: só fecha em desktop (evita fechar sem querer no mobile) */
 modal.addEventListener("click", (e) => {
   if (!isDesktopPointer()) return;
   if (e.target === modal || e.target === modalStage) closeModal();
@@ -934,9 +943,6 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-/* ============ GESTOS NO MODAL ============ */
-
-/* Swipe horizontal → troca ângulo */
 let toqueX = null;
 modalStage.addEventListener("touchstart", (e) => {
   if (zoomAtivo) return;
@@ -949,7 +955,6 @@ modalStage.addEventListener("touchend", (e) => {
   if (Math.abs(dx) > 50) mostrar(corteAtual, anguloAtual + (dx < 0 ? 1 : -1), true);
 }, {passive:true});
 
-/* Swipe vertical pra baixo → fecha (mobile) */
 let toqueY = null;
 modalStage.addEventListener("touchstart", (e) => {
   if (zoomAtivo) return;
