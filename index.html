@@ -2,331 +2,226 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HairOS — Cortes + Kits de Produtos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#09090a">
 <meta name="description" content="Escolha o corte perfeito com fotos de frente, lado e atrás. Kits de produtos recomendados para manter o resultado em casa. Links de afiliado.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0808'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='72' fill='%23d4b07a' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
+<title>HairOS · Cortes</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2309090a'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='72' fill='%23c9a96e' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0a0808; --bg-card:#1a1612; --bg-elevated:#221d18;
-    --text:#f5f0ea; --text-sec:#ddd0c0; --text-muted:#a89e93;
-    --gold:#d4b07a; --gold-light:#ecdcb0; --gold-glow:rgba(212,176,122,.14);
-    --border:rgba(212,176,122,.10); --border-gold:rgba(212,176,122,.28);
-    --radius:14px; --transition:.4s cubic-bezier(.22,.61,.36,1);
-    --ease-luxury:cubic-bezier(.23,1,.32,1);
-    --focus-ring:0 0 0 3px rgba(212,176,122,.5);
-    --header-h:56px;
-    --danger:#b83a4a;
-    --danger-bg:rgba(120,25,35,.55);
-    --danger-border:rgba(184,58,74,.55);
-    --danger-text:#e8a0a8;
-    --danger-glow:rgba(184,58,74,.35);
+    --ink:#09090a;
+    --ink-2:#131315;
+    --ink-3:#1c1c1f;
+    --line:rgba(201,169,110,.28);
+    --gold:#c9a96e;
+    --gold-hi:#f1dca6;
+    --gold-lo:#8a6a33;
+    --gold-grad:linear-gradient(145deg,var(--gold-hi),var(--gold) 48%,var(--gold-lo));
+    --text:#ece7dd;
+    --muted:#a29b8d;
+    --serif:"Playfair Display","Didot","Times New Roman",serif;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --safe-t:env(safe-area-inset-top,0px);
+    --safe-b:env(safe-area-inset-bottom,0px);
   }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html,body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh;line-height:1.65;overflow-x:hidden}
-  body{padding:0 14px 60px;max-width:1600px;margin:0 auto}
-  :focus-visible{outline:none;box-shadow:var(--focus-ring)}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-padding-top:var(--safe-t)}
+  body{
+    min-height:100vh;color:var(--text);font:400 16px/1.55 var(--sans);
+    background:
+      radial-gradient(90% 50% at 50% 0%,#2a2a2e 0%,transparent 70%),
+      var(--ink);
+    padding:calc(var(--safe-t) + 28px) 18px calc(var(--safe-b) + 120px);
+  }
+  body.lock{overflow:hidden}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
 
-  @keyframes fadeInUp{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-  @keyframes logoZoomIn{0%{opacity:0;transform:scale(.1)}100%{opacity:1;transform:scale(1)}}
-  @keyframes logoZoomOut{0%{transform:scale(1);opacity:1}100%{transform:scale(8);opacity:0}}
-  @keyframes softGlowGold{0%,100%{text-shadow:0 0 4px rgba(232,213,168,.45),0 0 10px rgba(201,169,110,.25)}50%{text-shadow:0 0 8px rgba(232,213,168,.75),0 0 18px rgba(201,169,110,.4)}}
-  @keyframes fadeSection{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes sheetUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .wrap{max-width:980px;margin:0 auto}
 
-  /* ========== LOADING ========== */
-  .loading-screen{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s cubic-bezier(.4,0,.2,1),visibility 1s}
+  /* ---------- Topo ---------- */
+  header{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .logo{
+    width:76px;height:76px;border-radius:22px;display:grid;place-items:center;
+    background:linear-gradient(160deg,#252528,#050506);
+    border:1px solid rgba(241,220,166,.55);
+    box-shadow:0 0 22px rgba(201,169,110,.55),0 0 2px rgba(255,236,190,.9),inset 0 0 14px rgba(201,169,110,.12);
+  }
+  .logo span{
+    font:600 48px/1 var(--serif);
+    background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 5px rgba(201,169,110,.5));
+  }
+  h1{margin-top:20px;font:600 clamp(28px,6vw,40px)/1.15 var(--serif);letter-spacing:.01em}
+  .lead{margin-top:10px;max-width:46ch;color:var(--muted);font-size:15px}
+
+  .chips{margin:28px 0 22px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .chip{
+    padding:8px 16px;border-radius:999px;border:1px solid var(--line);
+    color:var(--muted);font-size:14px;transition:all .2s ease;
+  }
+  .chip:hover{color:var(--text);border-color:var(--gold)}
+  .chip[aria-pressed="true"]{background:var(--gold-grad);color:#1a1307;border-color:transparent;font-weight:600}
+
+  /* ---------- Grade ---------- */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media (min-width:700px){.grid{grid-template-columns:repeat(3,1fr);gap:20px}}
+
+  .card{
+    all:unset;box-sizing:border-box;position:relative;display:block;cursor:pointer;
+    padding:2px;border-radius:24px;background:var(--gold-grad);
+    box-shadow:0 0 16px rgba(201,169,110,.32);
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .card:hover{
+    transform:translateY(-5px);
+    box-shadow:
+      0 0 22px rgba(241,220,166,.55),
+      0 0 44px rgba(201,169,110,.28),
+      0 18px 32px rgba(0,0,0,.55);
+  }
+  .card:focus-visible{outline:2px solid #fff;outline-offset:4px}
+  .card .photo{display:block;border-radius:22px;overflow:hidden;aspect-ratio:1/1.15;background:#2a2622;position:relative}
+  .card .photo svg,.card .photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+  .card .cap{
+    position:absolute;left:0;right:0;bottom:0;padding:34px 14px 12px;
+    background:linear-gradient(180deg,transparent,rgba(5,5,6,.82));
+    font:600 16px/1.2 var(--serif);color:#fff;text-align:left;
+  }
+  .card .cap small{display:block;margin-top:3px;font:400 12px/1.3 var(--sans);color:#d9d2c3}
+  .heart{
+    position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;
+    display:grid;place-items:center;background:rgba(9,9,10,.6);backdrop-filter:blur(6px);
+    border:1px solid var(--line);
+  }
+  .heart svg{width:17px;height:17px;fill:none;stroke:var(--gold-hi);stroke-width:1.8;transition:all .2s}
+  .heart.on svg{fill:var(--gold);stroke:var(--gold)}
+
+  .empty{grid-column:1/-1;text-align:center;padding:60px 10px;color:var(--muted)}
+  .empty b{display:block;font:600 22px var(--serif);color:var(--text);margin-bottom:8px}
+
+  @media (prefers-reduced-motion:no-preference){
+    .logo{animation:ignite 1.1s ease-out both}
+    .card{animation:rise .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.35s + var(--i) * 70ms)}
+    @keyframes ignite{0%{box-shadow:0 0 0 rgba(201,169,110,0);opacity:0}100%{opacity:1}}
+    @keyframes rise{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+  }
+
+  /* ---------- Navegação em pílulas ---------- */
+  nav{
+    position:fixed;left:50%;bottom:calc(var(--safe-b) + 18px);transform:translateX(-50%);z-index:20;
+    display:flex;gap:10px;padding:8px;border-radius:999px;
+    background:rgba(14,14,16,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.55);
+    transition:transform .35s ease;
+  }
+  nav.hide{transform:translateX(-50%) translateY(calc(100% + 30px))}
+  .pill{
+    min-width:112px;padding:11px 20px;border-radius:999px;font-weight:600;font-size:14px;
+    color:var(--gold-hi);border:1px solid var(--line);transition:all .2s ease;
+  }
+  .pill[aria-pressed="true"]{
+    background:linear-gradient(180deg,#f3dba0,#c9994a 60%,#b0802f);color:#1a1307;border-color:transparent;
+    box-shadow:0 0 16px rgba(201,169,110,.5),inset 0 1px 0 rgba(255,255,255,.5);
+  }
+
+  /* ---------- Painel de detalhe ---------- */
+  .veil{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.66);backdrop-filter:blur(4px);
+    opacity:0;pointer-events:none;transition:opacity .25s ease}
+  .veil.open{opacity:1;pointer-events:auto}
+  .sheet{
+    position:fixed;z-index:50;left:50%;bottom:0;width:min(560px,100%);max-height:92vh;
+    transform:translate(-50%,105%);transition:transform .38s cubic-bezier(.2,.8,.2,1);
+    background:var(--ink-2);border:1px solid var(--line);border-bottom:0;
+    border-radius:28px 28px 0 0;overflow:auto;overscroll-behavior:contain;
+  }
+  .sheet.open{transform:translate(-50%,0)}
+  @media (min-width:700px){
+    .sheet{bottom:auto;top:50%;border-radius:28px;border-bottom:1px solid var(--line);transform:translate(-50%,-40%);opacity:0;pointer-events:none;transition:all .3s ease}
+    .sheet.open{transform:translate(-50%,-50%);opacity:1;pointer-events:auto}
+  }
+  .sheet .hero{position:relative;aspect-ratio:16/11;overflow:hidden;background:#2a2622;cursor:zoom-in}
+  .sheet .hero .photo{display:block;width:100%;height:100%}
+  .sheet .hero svg,.sheet .hero img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:opacity .25s ease,transform .35s cubic-bezier(.23,1,.32,1)}
+  .sheet .hero svg.trocando,.sheet .hero img.trocando{opacity:0}
+  .sheet .hero.zoom-ativo .photo{transform:scale(2.2);cursor:grab;transition:transform .3s ease}
+  .sheet .hero.zoom-ativo .photo.arrastando{cursor:grabbing;transition:none}
+  .sheet .hero::after{content:"";position:absolute;inset:auto 0 0 0;height:50%;background:linear-gradient(180deg,transparent,var(--ink-2));pointer-events:none;z-index:1}
+  .round{
+    position:absolute;top:14px;width:40px;height:40px;border-radius:50%;z-index:3;
+    display:grid;place-items:center;background:rgba(9,9,10,.65);backdrop-filter:blur(6px);border:1px solid var(--line);
+  }
+  .round.close{left:14px}.round.fav{right:14px}
+  .round svg{width:18px;height:18px;fill:none;stroke:var(--gold-hi);stroke-width:1.8;stroke-linecap:round}
+  .round.fav.on svg{fill:var(--gold);stroke:var(--gold)}
+  .round:hover{background:rgba(9,9,10,.85);border-color:var(--gold)}
+
+  .hero .nav-btn{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(9,9,10,.65);backdrop-filter:blur(6px);border:1px solid var(--line);
+    color:var(--gold-hi);font:300 22px/1 var(--sans);display:grid;place-items:center;padding:0;
+  }
+  .hero .nav-btn.prev{left:14px}
+  .hero .nav-btn.next{right:14px}
+  .hero .nav-btn:hover{background:var(--gold);color:#1a1307}
+
+  .body{padding:4px 24px calc(var(--safe-b) + 28px)}
+  .body h2{font:600 30px/1.15 var(--serif)}
+  .tone{margin-top:6px;color:var(--gold);font-size:14px;font-weight:500}
+  .body h3{margin:24px 0 8px;font:600 18px var(--serif)}
+  .body p{color:#cfc8b9;max-width:62ch}
+  .body ol{padding-left:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+  .body li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:10px;color:#cfc8b9}
+  .body li::before{
+    content:counter(s);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    border:1px solid var(--gold);color:var(--gold-hi);font:600 13px var(--sans);margin-top:1px;
+  }
+  .cta{
+    margin-top:28px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+    padding:15px 20px;border-radius:999px;text-decoration:none;font-weight:600;color:#1a1307;
+    background:linear-gradient(180deg,#f3dba0,#c9994a 60%,#b0802f);
+    box-shadow:0 0 18px rgba(201,169,110,.45),inset 0 1px 0 rgba(255,255,255,.5);
+  }
+  .cta:hover{filter:brightness(1.07)}
+  .note{margin-top:10px;text-align:center;font-size:12px;color:var(--muted)}
+
+  .body .kit-box{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+  .body .kit-box h3{margin-top:0}
+  .body .kit-box h3::after{content:'';display:block;width:20px;height:1px;margin:10px 0 0;background:var(--line)}
+  .kit-item{display:block;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(9,9,10,.6);text-decoration:none;transition:all .3s ease;margin-top:8px}
+  .kit-item:hover{background:rgba(201,169,110,.08);border-color:var(--gold)}
+  .kit-item .kit-nome{display:block;color:var(--gold-hi);font-size:13px;font-weight:600;margin-bottom:3px}
+  .kit-item .kit-razao{display:block;color:var(--muted);font-size:12px;line-height:1.5}
+  .kit-aviso{margin-top:12px;font-size:12px;color:var(--muted);text-align:center;opacity:.85}
+
+  /* ---------- Aviso ---------- */
+  .toast{
+    position:fixed;left:50%;top:calc(var(--safe-t) + 16px);z-index:80;transform:translate(-50%,-140%);
+    padding:11px 20px;border-radius:999px;background:var(--ink-3);border:1px solid var(--gold);
+    color:var(--text);font-size:14px;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);
+    box-shadow:0 10px 26px rgba(0,0,0,.5);
+  }
+  .toast.show{transform:translate(-50%,0)}
+
+  /* ---------- Loading ---------- */
+  .loading-screen{position:fixed;inset:0;z-index:9999;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s cubic-bezier(.4,0,.2,1),visibility 1s}
   .loading-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
-  .loading-logo{display:flex;flex-direction:column;align-items:center;gap:12px;animation:logoZoomIn 1.6s var(--ease-luxury) forwards}
-  .loading-logo.zoom-out{animation:logoZoomOut 1.1s cubic-bezier(.77,0,.175,1) forwards}
-  .loading-brand{font-family:'Playfair Display',serif;font-size:3.6rem;font-weight:700;font-style:italic;color:var(--gold);line-height:1;letter-spacing:-.01em;text-shadow:0 0 60px var(--gold-glow)}
-  .loading-sub{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:300;letter-spacing:.5em;text-transform:uppercase;color:var(--text-muted);padding-left:.5em}
-  .loading-bar{margin-top:36px;width:min(210px,64vw);height:2px;background:var(--border);border-radius:2px;overflow:hidden;transition:opacity .4s}
-  .loading-bar-inner{width:0;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .35s ease-out}
+  .loading-logo{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .loading-brand{font:600 3.6rem/1 var(--serif);color:var(--gold);letter-spacing:-.01em}
+  .loading-sub{font:300 .68rem/1 var(--sans);letter-spacing:.5em;text-transform:uppercase;color:var(--muted);padding-left:.5em}
+  .loading-bar{margin-top:36px;width:min(210px,64vw);height:2px;background:var(--line);border-radius:2px;overflow:hidden;transition:opacity .4s}
+  .loading-bar-inner{width:0;height:100%;background:var(--gold-grad);transition:width .35s ease-out}
   .loading-percent{margin-top:14px;font-size:.62rem;color:var(--gold);opacity:.5;transition:opacity .4s;letter-spacing:.1em}
 
   .main-content{opacity:0;visibility:hidden;transform:translateY(15px);transition:all 1s cubic-bezier(.16,1,.3,1)}
   .main-content.visible{opacity:1;visibility:visible;transform:translateY(0)}
 
-  /* ========== HEADER FIXO ========== */
-  .topbar{position:fixed;top:0;left:0;right:0;height:var(--header-h);background:rgba(10,8,8,.82);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--border);z-index:900;display:flex;align-items:center}
-  .topbar-inner{width:100%;max-width:1600px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-
-  .brand{display:flex;align-items:baseline;gap:2px;text-decoration:none;line-height:1;cursor:pointer;user-select:none;background:none;border:none;color:inherit;font-family:inherit;padding:0}
-  .brand-h{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--gold);line-height:1;letter-spacing:-.03em;animation:softGlowGold 5s ease-in-out infinite}
-  .brand-rest{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--text-sec);line-height:1;letter-spacing:.01em}
-
-  .menu-btn{width:40px;height:40px;border-radius:50%;background:transparent;border:1px solid var(--border-gold);color:var(--gold-light);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:all .3s var(--ease-luxury)}
-  .menu-btn:hover{background:rgba(212,176,122,.1);border-color:var(--gold)}
-  .menu-btn .bar{display:block;width:18px;height:1.5px;background:currentColor;border-radius:2px;transition:all .3s var(--ease-luxury)}
-  .menu-btn .bar + .bar{margin-top:4px}
-
-  /* ========== DRAWER ========== */
-  .drawer-overlay{position:fixed;inset:0;background:rgba(10,8,8,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:950;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
-  .drawer-overlay.ativo{opacity:1;visibility:visible}
-
-  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);background:var(--bg-card);border-left:1px solid var(--border-gold);z-index:960;transform:translateX(100%);transition:transform .45s var(--ease-luxury);display:flex;flex-direction:column;padding:24px 0;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
-  .drawer::-webkit-scrollbar{width:0;display:none}
-  .drawer.aberto{transform:translateX(0)}
-
-  .drawer-header{display:flex;align-items:center;justify-content:space-between;padding:0 24px 24px;border-bottom:1px solid var(--border)}
-  .drawer-brand{display:flex;align-items:baseline;gap:2px;line-height:1}
-  .drawer-brand .brand-h{font-size:1.5rem}
-  .drawer-brand .brand-rest{font-size:.92rem}
-
-  .drawer-fechar{
-    width:36px;height:36px;border-radius:50%;
-    background:var(--danger-bg);
-    border:1px solid var(--danger-border);
-    color:var(--danger-text);
-    cursor:pointer;font-size:1.1rem;line-height:1;
-    display:flex;align-items:center;justify-content:center;padding:0;
-    transition:all .3s var(--ease-luxury);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-    box-shadow:0 0 0 1px rgba(184,58,74,.12), 0 4px 20px rgba(0,0,0,.35);
-  }
-  .drawer-fechar:hover{
-    background:rgba(150,35,48,.75);
-    border-color:var(--danger);
-    color:#f5c8ce;
-    box-shadow:0 0 0 1px rgba(184,58,74,.3), 0 0 20px var(--danger-glow);
-  }
-
-  .drawer-nav{display:flex;flex-direction:column;padding:16px 0}
-  .drawer-nav button{display:block;width:100%;text-align:left;padding:16px 24px;background:none;border:none;color:var(--text);font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;font-weight:500;letter-spacing:.005em;border-bottom:1px solid var(--border);transition:all .3s var(--ease-luxury);cursor:pointer}
-  .drawer-nav button:last-child{border-bottom:none}
-  .drawer-nav button:hover{background:rgba(212,176,122,.06);color:var(--gold);padding-left:30px}
-  .drawer-nav button.ativo{color:var(--gold)}
-
-  .drawer-footer{margin-top:auto;padding:24px;font-size:.62rem;color:var(--text-muted);letter-spacing:.25em;text-transform:uppercase;font-weight:300;opacity:.5;text-align:center}
-
-  /* ========== SEÇÕES ========== */
-  .secao{display:none;animation:fadeSection .5s var(--ease-luxury)}
-  .secao.ativa{display:block}
-
-  .page-title{text-align:center;padding:calc(var(--header-h) + 32px) 16px 8px;margin-bottom:32px}
-  .page-title h1{font-family:'Playfair Display',serif;font-style:italic;font-size:1.6rem;font-weight:600;color:var(--text);letter-spacing:-.015em;line-height:1.2}
-  .page-title .divider{display:block;width:20px;height:1px;margin:18px auto 14px;background:var(--border-gold)}
-  .page-title .sub{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);font-weight:300;line-height:1.9}
-  .page-title .sub .highlight{color:var(--gold);font-weight:400}
-
-  /* ========== MASONRY ========== */
-  #catalogo{column-count:2;column-gap:12px}
-  @media (min-width:600px){#catalogo{column-count:3;column-gap:14px}}
-  @media (min-width:900px){#catalogo{column-count:4;column-gap:16px}}
-  @media (min-width:1200px){#catalogo{column-count:5;column-gap:18px}}
-
-  .card{break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;margin-bottom:14px;background:var(--bg-card);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;cursor:pointer;display:block;width:100%;transition:transform var(--transition),border-color var(--transition),box-shadow var(--transition);animation:fadeInUp .6s var(--ease-luxury) backwards}
-  .card:focus-visible{border-color:var(--gold)}
-  .card img{width:100%;display:block;object-fit:cover;object-position:center top;background:var(--bg-elevated);transition:transform .6s var(--ease-luxury)}
-  .card .h-xs{height:150px}.card .h-sm{height:200px}.card .h-md{height:260px}.card .h-lg{height:320px}.card .h-xl{height:380px}.card .h-xxl{height:440px}
-  @media (min-width:600px){.card .h-xs{height:170px}.card .h-sm{height:230px}.card .h-md{height:300px}.card .h-lg{height:370px}.card .h-xl{height:440px}.card .h-xxl{height:520px}}
-
-  @media (hover:hover){
-    .card:hover,.card:focus-within{border-color:var(--border-gold);transform:translateY(-6px) scale(1.02);box-shadow:0 16px 48px rgba(0,0,0,.5);z-index:10}
-    .card:hover img{transform:scale(1.06)}
-  }
-
-  /* ========== SEÇÃO KITS ========== */
-  .kits-lista{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
-  .kit-bloco{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px}
-  .kit-bloco-titulo{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.05rem;color:var(--text);margin-bottom:4px;letter-spacing:-.005em}
-  .kit-bloco-desc{font-size:.76rem;color:var(--text-muted);font-weight:300;line-height:1.5;margin-bottom:16px}
-  .kit-bloco-divider{display:block;width:20px;height:1px;background:var(--border-gold);margin-bottom:16px}
-  .kit-bloco-lista{display:flex;flex-direction:column;gap:8px}
-  .kit-bloco-lista .kit-link{display:block;padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:rgba(10,8,8,.6);text-decoration:none;transition:all .3s var(--ease-luxury)}
-  .kit-bloco-lista .kit-link:hover{background:rgba(212,176,122,.08);border-color:var(--border-gold)}
-  .kit-bloco-lista .kit-nome{display:block;color:var(--gold-light);font-size:.82rem;font-weight:500;margin-bottom:3px}
-  .kit-bloco-lista .kit-razao{display:block;color:var(--text-muted);font-size:.72rem;font-weight:300;line-height:1.5}
-
-  /* ========== SEÇÃO SOBRE ========== */
-  .sobre-conteudo{max-width:640px;margin:0 auto;text-align:center}
-  .sobre-conteudo .sobre-marca{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:var(--gold);line-height:1;margin-bottom:8px;animation:softGlowGold 5s ease-in-out infinite}
-  .sobre-conteudo .sobre-tag{font-size:.66rem;letter-spacing:.4em;text-transform:uppercase;color:var(--text-muted);font-weight:300;margin-bottom:36px;display:block}
-  .sobre-conteudo p{font-size:.92rem;color:var(--text-sec);font-weight:300;line-height:1.85;margin-bottom:20px;text-align:left}
-  .sobre-conteudo p .gold{color:var(--gold);font-weight:400}
-  .sobre-fio{display:block;width:32px;height:1px;background:var(--border-gold);margin:32px auto}
-
-  /* ========== SEÇÃO CONTATO ========== */
-  .contato-conteudo{max-width:480px;margin:0 auto;text-align:center}
-  .contato-conteudo p{font-size:.86rem;color:var(--text-sec);font-weight:300;line-height:1.7;margin-bottom:28px}
-  .contato-canais{display:flex;flex-direction:column;gap:10px}
-  .contato-canal{display:block;padding:16px 20px;border-radius:12px;border:1px solid var(--border-gold);background:rgba(10,8,8,.6);text-decoration:none;transition:all .3s var(--ease-luxury);text-align:left}
-  .contato-canal:hover{background:rgba(212,176,122,.08);border-color:var(--gold)}
-  .contato-canal .canal-label{display:block;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);font-weight:400;margin-bottom:4px}
-  .contato-canal .canal-valor{display:block;font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;color:var(--gold-light);font-weight:500}
-
-  /* ========== MODAL ========== */
-  .modal{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:68px 16px 18px;background:rgba(10,8,8,.98);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:1000;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s}
-  .modal.ativo{opacity:1;visibility:visible}
-
-  .modal-stage{position:relative;flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;touch-action:pan-y}
-  .modal-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;box-shadow:0 0 60px rgba(212,176,122,.25),0 0 120px rgba(0,0,0,.8);transition:opacity .25s ease,transform .35s var(--ease-luxury);cursor:zoom-in}
-  .modal-stage img.trocando{opacity:0}
-  .modal-stage img.zoom{cursor:zoom-out;transform:scale(2.2);border-radius:0}
-  .modal-stage.zoom-ativo{touch-action:none}
-
-  .btn-circ{width:44px;height:44px;border-radius:50%;background:rgba(10,8,8,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--border-gold);color:var(--gold-light);cursor:pointer;line-height:1;user-select:none;display:flex;align-items:center;justify-content:center;padding:0;transition:all .3s var(--ease-luxury);font-family:'Inter',sans-serif;font-weight:300;font-size:1.4rem}
-  .btn-circ:hover{background:var(--gold);color:#1b1209}
-
-  .modal-fechar{
-    position:absolute;top:16px;right:20px;
-    background:var(--danger-bg);
-    border-color:var(--danger-border);
-    color:var(--danger-text);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-    box-shadow:0 0 0 1px rgba(184,58,74,.12), 0 4px 20px rgba(0,0,0,.4);
-    z-index:5;
-  }
-  .modal-fechar:hover{
-    background:rgba(150,35,48,.75);
-    border-color:var(--danger);
-    color:#f5c8ce;
-    transform:scale(1.08) rotate(90deg);
-    box-shadow:0 0 0 1px rgba(184,58,74,.3), 0 0 24px var(--danger-glow), 0 4px 20px rgba(0,0,0,.5);
-  }
-
-  .modal-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2}
-  .modal-nav.prev{left:4px}.modal-nav.next{right:4px}
-  @media (min-width:700px){.modal-nav.prev{left:16px}.modal-nav.next{right:16px}}
-
-  .modal-info{width:min(560px,100%);text-align:center;max-height:36vh;overflow-y:auto;overscroll-behavior:contain;padding-bottom:4px;scrollbar-width:none;-ms-overflow-style:none}
-  .modal-info::-webkit-scrollbar{width:0;height:0;display:none}
-
-  .modal-titulo{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.2rem;color:var(--text);letter-spacing:-.01em}
-  .modal-titulo .angle{color:var(--gold);font-family:'Inter',sans-serif;font-style:normal;font-size:.62rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;margin-left:10px}
-  .modal-desc{margin-top:6px;font-size:.82rem;color:var(--text-sec);font-weight:300;line-height:1.6}
-  .modal-thumbs{margin-top:14px;display:flex;justify-content:center;gap:10px}
-  .thumb{width:52px;height:68px;padding:0;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg-elevated);cursor:pointer;opacity:.55;transition:all .3s var(--ease-luxury);position:relative}
-  .thumb img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
-  .thumb:hover{opacity:.9}
-  .thumb[aria-current="true"]{opacity:1;border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
-  [hidden]{display:none !important}
-
-  /* ===== AUTO-HIDE — SÓ DESKTOP ===== */
-  @media (hover:hover) and (pointer:fine){
-    .modal-fechar,
-    .modal-nav{transition:opacity .5s ease;}
-    .modal.ui-oculta .modal-fechar,
-    .modal.ui-oculta .modal-nav{opacity:0;}
-  }
-
-  .modal-kit{margin-top:22px;padding-top:20px;border-top:1px solid var(--border)}
-  .modal-kit-titulo{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1rem;color:var(--text);margin-bottom:16px;letter-spacing:-.005em}
-  .modal-kit-titulo::after{content:'';display:block;width:20px;height:1px;margin:10px auto 0;background:var(--border-gold)}
-  .modal-kit-lista{display:flex;flex-direction:column;gap:8px;margin-top:16px}
-  .kit-link{display:block;padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:rgba(10,8,8,.6);text-decoration:none;transition:all .3s var(--ease-luxury);text-align:left}
-  .kit-link:hover{background:rgba(212,176,122,.08);border-color:var(--border-gold)}
-  .kit-link .kit-nome{display:block;color:var(--gold-light);font-size:.82rem;font-weight:500;margin-bottom:3px;letter-spacing:.005em}
-  .kit-link .kit-razao{display:block;color:var(--text-muted);font-size:.72rem;font-weight:300;line-height:1.5}
-  .modal-aviso{margin-top:14px;font-size:.65rem;color:var(--text-muted);font-weight:300;line-height:1.5;opacity:.8}
-  .modal-cta{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);font-family:'Playfair Display',serif;font-style:italic;font-size:.82rem;color:var(--text-sec);font-weight:400;letter-spacing:.01em}
-  .modal-cta .gold{color:var(--gold)}
-
-  /* ========== MODAL — MOBILE (bottom sheet) ========== */
-  @media (max-width:699px){
-    .modal{
-      padding:0;
-      gap:0;
-      align-items:stretch;
-      justify-content:flex-start;
-      flex-direction:column;
-    }
-
-    /* Stage em cima, ocupa espaço restante. SEM position:absolute. */
-    .modal-stage{
-      position:relative;
-      inset:auto;
-      flex:1 1 auto;
-      min-height:0;
-      width:100%;
-      height:auto;
-      padding:64px 12px 12px;
-    }
-    .modal-stage img{
-      max-width:100%;
-      max-height:100%;
-      border-radius:10px;
-    }
-
-    /* Setas flutuando na base da imagem */
-    .modal-nav{
-      top:auto;
-      bottom:16px;
-      transform:none;
-      width:40px;height:40px;
-      background:rgba(10,8,8,.72);
-      border-color:rgba(212,176,122,.35);
-      backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px);
-      z-index:3;
-    }
-    .modal-nav.prev{left:12px}
-    .modal-nav.next{right:12px}
-
-    .modal-fechar{
-      top:12px;right:12px;
-      width:40px;height:40px;
-      z-index:5;
-    }
-
-    /* Bottom sheet: flui ABAIXO da imagem, sem sobrepor */
-    .modal-info{
-      position:relative;
-      flex:0 0 auto;
-      width:100%;
-      max-height:42vh;
-      background:var(--bg-card);
-      border-top:1px solid var(--border-gold);
-      border-radius:18px 18px 0 0;
-      padding:22px 20px calc(20px + env(safe-area-inset-bottom,0px));
-      text-align:center;
-      box-shadow:0 -20px 60px rgba(0,0,0,.55);
-      overflow-y:auto;
-      overscroll-behavior:contain;
-      -webkit-overflow-scrolling:touch;
-      animation:sheetUp .4s var(--ease-luxury);
-    }
-    .modal-info::before{
-      content:'';
-      display:block;
-      width:38px;height:4px;
-      border-radius:4px;
-      background:rgba(212,176,122,.28);
-      margin:-10px auto 14px;
-    }
-
-    .modal-titulo{font-size:1.1rem}
-    .modal-titulo .angle{display:inline-block;margin-left:8px;font-size:.58rem}
-    .modal-desc{font-size:.8rem}
-
-    .modal-thumbs{margin-top:14px;gap:8px}
-    .thumb{width:44px;height:56px;border-radius:8px}
-
-    .modal-kit{margin-top:18px;padding-top:16px}
-    .modal-kit-titulo{font-size:.92rem}
-    .kit-link{padding:11px 14px}
-    .kit-link .kit-nome{font-size:.78rem}
-    .kit-link .kit-razao{font-size:.68rem}
-
-    .modal-cta{font-size:.76rem;margin-top:16px;padding-top:14px}
-  }
-
-  @media (max-width:380px){
-    .modal-info{max-height:46vh;padding:20px 16px calc(18px + env(safe-area-inset-bottom,0px))}
-    .thumb{width:40px;height:52px}
-  }
-
-  .footer-mini{text-align:center;margin-top:64px;padding-top:32px;border-top:1px solid var(--border);font-size:.6rem;color:var(--text-muted);letter-spacing:.3em;text-transform:uppercase;font-weight:300;opacity:.5}
-  .footer-mini .gold{color:var(--gold);opacity:1}
-
   @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.01ms !important;animation-delay:0s !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+    *{transition-duration:.01ms !important;animation:none !important}
   }
 </style>
 </head>
@@ -334,159 +229,40 @@
 
 <!-- LOADING -->
 <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite">
-  <div class="loading-logo" id="loadingLogo">
+  <div class="loading-logo">
     <span class="loading-brand">HairOS</span>
     <span class="loading-sub">Cortes + Kits</span>
   </div>
-  <div class="loading-bar" id="loadingBarContainer"><div class="loading-bar-inner" id="loadingBar"></div></div>
+  <div class="loading-bar"><div class="loading-bar-inner" id="loadingBar"></div></div>
   <div class="loading-percent" id="loadingPercent">0%</div>
 </div>
 
-<!-- HEADER FIXO -->
-<header class="topbar">
-  <div class="topbar-inner">
-    <button class="brand" id="brandHome" aria-label="HairOS — início">
-      <span class="brand-h">H</span><span class="brand-rest">airOS</span>
-    </button>
-    <button type="button" class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="drawer">
-      <span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </span>
-    </button>
-  </div>
-</header>
-
-<!-- DRAWER -->
-<div class="drawer-overlay" id="drawerOverlay" hidden></div>
-<aside class="drawer" id="drawer" aria-hidden="true">
-  <div class="drawer-header">
-    <span class="drawer-brand">
-      <span class="brand-h">H</span><span class="brand-rest">airOS</span>
-    </span>
-    <button type="button" class="drawer-fechar" id="drawerFechar" aria-label="Fechar menu">&times;</button>
-  </div>
-  <nav class="drawer-nav">
-    <button type="button" data-secao="cortes" class="ativo">Cortes</button>
-    <button type="button" data-secao="kits">Kits</button>
-    <button type="button" data-secao="sobre">Sobre</button>
-    <button type="button" data-secao="contato">Contato</button>
-  </nav>
-  <div class="drawer-footer">HairOS · 2026</div>
-</aside>
-
-<!-- CONTEÚDO PRINCIPAL -->
 <div class="main-content" id="mainContent">
+  <div class="wrap">
+    <header>
+      <div class="logo" role="img" aria-label="HairOS"><span>H</span></div>
+      <h1>Cortes para o seu cabelo</h1>
+      <p class="lead">Sete cortes em três ângulos. Toque em um card para ver todos os detalhes, descrição por ângulo e o kit para manter em casa.</p>
+    </header>
 
-  <section class="secao ativa" id="secao-cortes">
-    <div class="page-title">
-      <h1>Catálogo de Cortes</h1>
-      <span class="divider"></span>
-    </div>
-    <main id="catalogo"></main>
-  </section>
-
-  <section class="secao" id="secao-kits">
-    <div class="page-title">
-      <h1>Kits de Produtos</h1>
-      <span class="divider"></span>
-      <div class="sub">
-        Produtos selecionados para<br>
-        <span class="highlight">manter o corte em casa</span>
-      </div>
-    </div>
-    <div class="kits-lista" id="kitsLista"></div>
-  </section>
-
-  <section class="secao" id="secao-sobre">
-    <div class="page-title">
-      <h1>Sobre</h1>
-      <span class="divider"></span>
-      <div class="sub">
-        A ideia por trás<br>
-        <span class="highlight">do HairOS</span>
-      </div>
-    </div>
-    <div class="sobre-conteudo">
-      <div class="sobre-marca">H</div>
-      <span class="sobre-tag">HairOS</span>
-
-      <p>O <span class="gold">HairOS</span> nasceu de uma ideia simples: escolher um corte de cabelo não deveria ser um chute. A maioria das pessoas chega ao salão sem saber o que pedir, e sai sem saber como manter o resultado.</p>
-
-      <p>Aqui você encontra <span class="gold">cortes organizados por ângulo</span> — frente, lado e atrás — para mostrar exatamente o que quer. E para cada corte, uma seleção de <span class="gold">produtos que realmente funcionam</span> para manter o visual em casa.</p>
-
-      <span class="sobre-fio"></span>
-
-      <p>Não vendemos produtos. Indicamos os que fazem sentido, com link direto para você comprar onde preferir. Se você comprar por um desses links, podemos receber uma comissão — <span class="gold">sem nenhum custo extra para você</span>.</p>
-
-      <p>O objetivo é um só: <span class="gold">você sair do salão sabendo exatamente como manter o corte</span> até a próxima visita.</p>
-    </div>
-  </section>
-
-  <section class="secao" id="secao-contato">
-    <div class="page-title">
-      <h1>Contato</h1>
-      <span class="divider"></span>
-      <div class="sub">
-        Siga e fale com<br>
-        <span class="highlight">o HairOS</span>
-      </div>
-    </div>
-    <div class="contato-conteudo">
-      <p>Dúvidas, sugestões de cortes, parcerias ou pedidos de kits personalizados — fale com a gente.</p>
-
-      <div class="contato-canais">
-        <a class="contato-canal" href="https://instagram.com/SEU_PERFIL" target="_blank" rel="noopener noreferrer">
-          <span class="canal-label">Instagram</span>
-          <span class="canal-valor">@SEU_PERFIL</span>
-        </a>
-        <a class="contato-canal" href="https://pinterest.com/SEU_PERFIL" target="_blank" rel="noopener noreferrer">
-          <span class="canal-label">Pinterest</span>
-          <span class="canal-valor">@SEU_PERFIL</span>
-        </a>
-        <a class="contato-canal" href="mailto:seu@email.com">
-          <span class="canal-label">E-mail</span>
-          <span class="canal-valor">seu@email.com</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="footer-mini">HairOS · <span class="gold">Salve o corte · Compre o kit · Mantenha o visual</span></div>
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitulo" aria-hidden="true">
-  <button type="button" class="btn-circ modal-fechar" id="fecharModal" aria-label="Fechar">&times;</button>
-
-  <div class="modal-stage" id="modalStage">
-    <button type="button" class="btn-circ modal-nav prev" id="btnPrev" aria-label="Ângulo anterior">&#8249;</button>
-    <img id="imgModal" src="" alt="">
-    <button type="button" class="btn-circ modal-nav next" id="btnNext" aria-label="Próximo ângulo">&#8250;</button>
-  </div>
-
-  <div class="modal-info">
-    <div class="modal-titulo" id="modalTitulo"></div>
-    <p class="modal-desc" id="modalDesc"></p>
-    <div class="modal-thumbs" id="modalThumbs"></div>
-
-    <div class="modal-kit" id="modalKit" hidden>
-      <div class="modal-kit-titulo">Kit para manter esse corte em casa</div>
-      <div class="modal-kit-lista" id="modalKitLista"></div>
-      <p class="modal-aviso">Links de afiliado: se você comprar por eles, posso receber uma comissão — sem custo extra para você.</p>
-    </div>
-
-    <div class="modal-cta" id="modalCta" hidden>
-      <span class="gold">Gostou?</span> Salve este corte e mostre no salão. Depois monte o kit e mantenha o resultado em casa.
-    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filtrar por tipo"></div>
+    <main class="grid" id="grid" aria-live="polite"></main>
   </div>
 </div>
+
+<nav id="nav" aria-label="Navegação principal">
+  <button class="pill" id="tabCortes" aria-pressed="true">Cortes</button>
+  <button class="pill" id="tabFav" aria-pressed="false">Favoritos</button>
+</nav>
+
+<div class="veil" id="veil"></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sTitle" hidden></section>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ============================================
-   ML_LINKS — FONTE ÚNICA DE LINKS DE AFILIADO
-   ============================================ */
+/* =========================================================
+   LINKS DE AFILIADO
+   ========================================================= */
 const ML_LINKS = {
   keune:       "https://meli.la/1GbiW7M",
   inoa:        "https://meli.la/28LpPj2",
@@ -496,12 +272,13 @@ const ML_LINKS = {
   ferramentas: "https://meli.la/2H5F4mn"
 };
 
-/* ============================================
-   DADOS — NARRATIVA ENXUTA
-   ============================================ */
-const cortes = [
-  {id:1,nome:"Long Bob Ondulado",
-   descricao:"Bob na altura dos ombros, com ondas naturais e franja reta. Ideal para quem quer movimento e praticidade.",
+/* =========================================================
+   DADOS
+   ========================================================= */
+const CORTES = [
+  {id:"long-bob", cat:"Médios", nome:"Long Bob Ondulado",
+   resumo:"Bob na altura dos ombros, com ondas naturais e franja reta. Ideal para quem quer movimento e praticidade.",
+   tone:"Médio · ondas naturais · franja reta",
    descricoes:{
      frente:"Bob na altura dos ombros, com ondas naturais e franja reta. A franja suaviza a testa e as ondas emolduram o rosto sem esconder os traços — equilibra rostos ovais, quadrados ou em coração.",
      lado:"De lado, o comprimento ganha vida: as ondas caem suavemente sobre os ombros e criam um movimento que acompanha o formato natural da cabeça.",
@@ -512,10 +289,12 @@ const cortes = [
      {nome:"Máscara Intensa — Joico", razao:"Hidratação profunda para as pontas onduladas não perderem forma ao longo do dia", link:ML_LINKS.joico},
      {nome:"Babyliss Cerâmica — Ferramentas", razao:"Modela as ondas do bob com calor uniforme, sem danificar a fibra", link:ML_LINKS.ferramentas}
    ],
-   imagens:{frente:"imagens/corte01-frente.png",lado:"imagens/corte01-lado.png",atras:"imagens/corte01-atras.png"}},
+   imagens:{frente:"imagens/corte01-frente.png",lado:"imagens/corte01-lado.png",atras:"imagens/corte01-atras.png"},
+   hair:["#e8c79a","#6b3f1c"], hi:"#fff0cf", skin:"#f0c9a8", lip:"#c9756c", type:"wavy", img:""},
 
-  {id:2,nome:"Shag Repicado",
-   descricao:"Camadas longas e repicadas, textura despojada com franja. Visual moderno e fácil de manter.",
+  {id:"shag", cat:"Longos", nome:"Shag Repicado",
+   resumo:"Camadas longas e repicadas, textura despojada com franja. Visual moderno e fácil de manter.",
+   tone:"Longo · camadas · franja desfiada",
    descricoes:{
      frente:"Camadas longas e repicadas com franja desfiada. Cria textura e volume na medida certa — suaviza rostos alongados ou angulosos com um ar despojado e moderno.",
      lado:"De perfil, as camadas se movimentam de forma irregular. As pontas repicadas dão personalidade e acompanham o formato natural da cabeça.",
@@ -526,10 +305,12 @@ const cortes = [
      {nome:"Shampoo Vitamino Color — L'Oréal Expert", razao:"Limpa sem tirar o volume natural das camadas desfiadas", link:ML_LINKS.expert},
      {nome:"Escova Rotativa Mondial — Ferramentas", razao:"Dá corpo e movimento na raiz do shag sem esforço", link:ML_LINKS.ferramentas}
    ],
-   imagens:{frente:"imagens/corte02-frente.png",lado:"imagens/corte02-lado.png",atras:"imagens/corte02-atras.png"}},
+   imagens:{frente:"imagens/corte02-frente.png",lado:"imagens/corte02-lado.png",atras:"imagens/corte02-atras.png"},
+   hair:["#c8955c","#4a2a12"], hi:"#f0d4a3", skin:"#edc19c", lip:"#c06b60", type:"wavy", img:""},
 
-  {id:3,nome:"Pixie Bagunçado",
-   descricao:"Corte curto volumoso, textura natural e movimento. Perfeito para quem quer praticidade com estilo.",
+  {id:"pixie-baguncado", cat:"Curtos", nome:"Pixie Bagunçado",
+   resumo:"Corte curto volumoso, textura natural e movimento. Perfeito para quem quer praticidade com estilo.",
+   tone:"Curto · volumoso · textura natural",
    descricoes:{
      frente:"Corte curto com volume no topo e textura natural. Alonga o rosto e valoriza traços delicados sem pesar — praticidade com atitude.",
      lado:"De lado, camadas estratégicas criam um efeito bagunçado proposital. Fácil de modelar e versátil para o dia a dia.",
@@ -540,10 +321,12 @@ const cortes = [
      {nome:"Shampoo Moisture Recovery — Joico", razao:"Hidratação leve que mantém o volume natural do pixie", link:ML_LINKS.joico},
      {nome:"Difusor Universal — Ferramentas", razao:"Espalha o calor por igual e preserva a textura bagunçada do topo", link:ML_LINKS.ferramentas}
    ],
-   imagens:{frente:"imagens/corte03-frente.png",lado:"imagens/corte03-lado.png",atras:"imagens/corte03-atras.png"}},
+   imagens:{frente:"imagens/corte03-frente.png",lado:"imagens/corte03-lado.png",atras:"imagens/corte03-atras.png"},
+   hair:["#5a3a20","#1c1008"], hi:"#8a5a34", skin:"#e4b590", lip:"#a85a53", type:"bob", img:""},
 
-  {id:4,nome:"Pixie Undercut",
-   descricao:"Laterais raspadas com topo longo e franja jogada de lado. Visual marcante e moderno.",
+  {id:"pixie-undercut", cat:"Curtos", nome:"Pixie Undercut",
+   resumo:"Laterais raspadas com topo longo e franja jogada de lado. Visual marcante e moderno.",
+   tone:"Curto · laterais raspadas · assimétrico",
    descricoes:{
      frente:"Laterais raspadas com topo longo e franja jogada de lado. Alonga o rosto e cria contraste — marcante para rostos ovais ou quadrados.",
      lado:"De perfil, a transição entre o raspado e o topo longo cria um contraste ousado e moderno.",
@@ -554,10 +337,12 @@ const cortes = [
      {nome:"Condicionador Absolut Repair — L'Oréal Expert", razao:"Recupera os fios do topo longo após o calor da máquina", link:ML_LINKS.expert},
      {nome:"Máscara Genesis — Kérastase", razao:"Fortalece a raiz para o contraste raspado × longo durar mais", link:ML_LINKS.kerastase}
    ],
-   imagens:{frente:"imagens/corte04-frente.png",lado:"imagens/corte04-lado.png",atras:"imagens/corte04-atras.png"}},
+   imagens:{frente:"imagens/corte04-frente.png",lado:"imagens/corte04-lado.png",atras:"imagens/corte04-atras.png"},
+   hair:["#2e1d10","#0a0605"], hi:"#6a4a2c", skin:"#f0c9a8", lip:"#c9756c", type:"bob", img:""},
 
-  {id:5,nome:"Bob Texturizado",
-   descricao:"Bob curto com ondas e camadas que dão volume e leveza. Clássico renovado.",
+  {id:"bob-texturizado", cat:"Curtos", nome:"Bob Texturizado",
+   resumo:"Bob curto com ondas e camadas que dão volume e leveza. Clássico renovado.",
+   tone:"Curto · bob · ondas texturizadas",
    descricoes:{
      frente:"Bob curto com ondas e camadas. Cria volume e leveza, com ângulos que afinam rostos redondos ou quadrados — clássico e moderno ao mesmo tempo.",
      lado:"De lado, a textura ondulada com camadas dá movimento e valoriza o perfil. Um bob que se mexe com você.",
@@ -568,10 +353,12 @@ const cortes = [
      {nome:"Leave-In Elixir Ultime — Kérastase", razao:"Sela as ondas texturizadas e dá brilho de salão", link:ML_LINKS.kerastase},
      {nome:"Máscara Nutrioil — L'Oréal Expert", razao:"Nutre as camadas do bob sem perder o movimento", link:ML_LINKS.expert}
    ],
-   imagens:{frente:"imagens/corte05-frente.png",lado:"imagens/corte05-lado.png",atras:"imagens/corte05-atras.png"}},
+   imagens:{frente:"imagens/corte05-frente.png",lado:"imagens/corte05-lado.png",atras:"imagens/corte05-atras.png"},
+   hair:["#d4a373","#5a3a20"], hi:"#f4d8ae", skin:"#f2d5c1", lip:"#c9786f", type:"bob", img:""},
 
-  {id:6,nome:"Camadas Médias",
-   descricao:"Corte médio em camadas com franja cortina e muito movimento. Versátil e elegante.",
+  {id:"camadas-medias", cat:"Médios", nome:"Camadas Médias",
+   resumo:"Corte médio em camadas com franja cortina e muito movimento. Versátil e elegante.",
+   tone:"Médio · camadas · franja cortina",
    descricoes:{
      frente:"Camadas médias com franja cortina. A franja abre o rosto e as camadas criam movimento — equilibra rostos alongados ou ovais com elegância.",
      lado:"De perfil, as camadas longas e graduais dão forma e um caimento fluido, com pontas que se movimentam naturalmente.",
@@ -582,10 +369,12 @@ const cortes = [
      {nome:"Condicionador Resistance — Kérastase", razao:"Desembaraça as camadas longas sem quebrar os fios", link:ML_LINKS.kerastase},
      {nome:"Shampoo Moisture Recovery — Joico", razao:"Hidrata da raiz às pontas para as camadas caírem fluido", link:ML_LINKS.joico}
    ],
-   imagens:{frente:"imagens/corte06-frente.png",lado:"imagens/corte06-lado.png",atras:"imagens/corte06-atras.png"}},
+   imagens:{frente:"imagens/corte06-frente.png",lado:"imagens/corte06-lado.png",atras:"imagens/corte06-atras.png"},
+   hair:["#a07448","#3a2412"], hi:"#d4a878", skin:"#e4b590", lip:"#a85a53", type:"wavy", img:""},
 
-  {id:7,nome:"Short Shag",
-   descricao:"Shag curto com franja desfiada e camadas texturizadas. Estilo despojado e atual.",
+  {id:"short-shag", cat:"Curtos", nome:"Short Shag",
+   resumo:"Shag curto com franja desfiada e camadas texturizadas. Estilo despojado e atual.",
+   tone:"Curto · shag · pontas desfiadas",
    descricoes:{
      frente:"Shag curto com franja desfiada e camadas texturizadas. Cria textura e volume — valoriza rostos finos ou delicados com atitude.",
      lado:"De lado, as camadas curtas e repicadas dão volume e movimento, com um ar despojado e autêntico.",
@@ -596,482 +385,403 @@ const cortes = [
      {nome:"Sérum Pro Longer — L'Oréal Expert", razao:"Dá brilho e controla o frizz das camadas curtas", link:ML_LINKS.expert},
      {nome:"Escova de Cerdas Naturais — Ferramentas", razao:"Finaliza o topo com volume natural e sem eletricidade", link:ML_LINKS.ferramentas}
    ],
-   imagens:{frente:"imagens/corte07-frente.png",lado:"imagens/corte07-lado.png",atras:"imagens/corte07-atras.png"}}
+   imagens:{frente:"imagens/corte07-frente.png",lado:"imagens/corte07-lado.png",atras:"imagens/corte07-atras.png"},
+   hair:["#7a4a28","#1c1008"], hi:"#a8703c", skin:"#edc19c", lip:"#c06b60", type:"bob", img:""}
 ];
 
 const ORDEM_ANGULOS = ['frente','lado','atras'];
-const ALTURAS = ['h-md','h-lg','h-sm','h-xl','h-xxl','h-md','h-lg','h-sm','h-xl','h-md',
-                 'h-lg','h-xxl','h-sm','h-md','h-xl','h-lg','h-sm','h-md','h-xxl','h-lg','h-md'];
 const ANGULOS = {frente:{label:'Frente'},lado:{label:'Lado'},atras:{label:'Atrás'}};
+const FILTROS = ["Todos","Curtos","Médios","Longos"];
 
-const FALLBACK = 'data:image/svg+xml,' + encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600">' +
-  '<rect fill="#1a1612" width="400" height="600"/>' +
-  '<text x="50%" y="50%" text-anchor="middle" dy=".3em" font-family="Georgia,serif" font-size="64" fill="#d4b07a">H</text></svg>'
-);
-function aplicarFallback(img){
-  img.addEventListener('error', function(){
-    if (this.src !== FALLBACK) this.src = FALLBACK;
-  });
+/* =========================================================
+   RETRATOS ILUSTRADOS (fallback)
+   ========================================================= */
+function portrait(c, i){
+  const g="hg"+i, bg="bg"+i; let back="", front="", hl="";
+  if(c.type==="bob"){
+    back=`<path d="M50 9C24 9 17 36 18 60L17 94Q50 100 83 94L82 60C83 36 76 9 50 9Z"/>`;
+    front=`<path d="M23 50C24 24 40 15 52 15C66 15 77 26 77 50C70 38 60 27 44 27C34 29 27 38 23 50Z"/>`;
+    hl=`<g fill="none" stroke="${c.hi}" stroke-width="2" stroke-linecap="round" opacity=".7"><path d="M24 40C20 58 22 74 21 90"/><path d="M78 40C80 58 78 74 79 90"/><path d="M40 18C52 14 66 18 72 28"/></g>`;
+  }else{
+    back=`<path d="M50 8C22 8 13 34 16 60C18 80 6 96 14 118L86 118C94 96 82 80 84 60C87 34 78 8 50 8Z"/>`;
+    front=`<path d="M23 50C24 24 40 14 50 14C62 14 77 24 77 50C70 36 60 27 48 27C36 30 29 38 23 50Z"/>`;
+    hl=`<g fill="none" stroke="${c.hi}" stroke-width="2.2" stroke-linecap="round" opacity=".6"><path d="M22 44C14 64 28 74 20 98"/><path d="M78 44C86 64 72 74 80 98"/><path d="M30 24C42 14 58 14 70 24"/></g>`;
+  }
+  return `<svg viewBox="0 0 100 112" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${c.nome}">
+    <defs>
+      <linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.hair[0]}"/><stop offset="1" stop-color="${c.hair[1]}"/></linearGradient>
+      <radialGradient id="${bg}" cx=".5" cy=".35" r=".8"><stop offset="0" stop-color="#f1e6d6"/><stop offset="1" stop-color="#b9a78f"/></radialGradient>
+    </defs>
+    <rect width="100" height="112" fill="url(#${bg})"/>
+    <g fill="url(#${g})">${back}</g>
+    <path d="M10 118C12 98 32 88 50 88C68 88 88 98 90 118Z" fill="#1d1d20"/>
+    <rect x="43" y="70" width="14" height="20" rx="6" fill="${c.skin}"/>
+    <rect x="43" y="70" width="14" height="8" fill="#000" opacity=".12"/>
+    <ellipse cx="50" cy="52" rx="21" ry="26" fill="${c.skin}"/>
+    <g fill="url(#${g})">${front}</g>${hl}
+    <g fill="#2a1a14"><ellipse cx="41" cy="53" rx="2.3" ry="2.6"/><ellipse cx="59" cy="53" rx="2.3" ry="2.6"/></g>
+    <g fill="#fff"><circle cx="41.8" cy="52.2" r=".8"/><circle cx="59.8" cy="52.2" r=".8"/></g>
+    <g fill="none" stroke="${c.hair[1]}" stroke-width="1.6" stroke-linecap="round" opacity=".85"><path d="M36 46Q41 43.5 46 46"/><path d="M54 46Q59 43.5 64 46"/></g>
+    <path d="M50 54Q48.5 61 50.5 62.5" fill="none" stroke="#000" stroke-width="1" opacity=".18" stroke-linecap="round"/>
+    <path d="M41 65Q50 76 59 65Q50 68.5 41 65Z" fill="#fff" stroke="${c.lip}" stroke-width="1.6" stroke-linejoin="round"/>
+  </svg>`;
 }
 
-/* ============================================
-   RENDER — MOSAICO (sem badge sobreposto)
-   ============================================ */
-const imagensSoltas = [];
-cortes.forEach((corte, ci) => {
-  ORDEM_ANGULOS.forEach((angulo, ai) => {
-    imagensSoltas.push({ci, ai, angulo, src: corte.imagens[angulo], nome: corte.nome,
-      altura: ALTURAS[imagensSoltas.length % ALTURAS.length], delay: imagensSoltas.length});
-  });
-});
+/* =========================================================
+   ESTADO E FAVORITOS
+   ========================================================= */
+const KEY = "hairos_cortes_favoritos";
+let favs = [];
+try { favs = JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { favs = []; }
+function saveFavs(){ try { localStorage.setItem(KEY, JSON.stringify(favs)); } catch(e) {} }
 
-const container = document.getElementById("catalogo");
-
-imagensSoltas.forEach((item, idx) => {
-  const rotulo = ANGULOS[item.angulo].label;
-  const card = document.createElement("article");
-  card.className = "card";
-  card.tabIndex = 0;
-  card.setAttribute("role", "button");
-  card.setAttribute("aria-label", item.nome + " - " + rotulo);
-  card.title = item.nome + " - " + rotulo;
-  card.style.animationDelay = (item.delay * 0.04) + "s";
-
-  const img = document.createElement("img");
-  img.className = item.altura;
-  img.src = item.src;
-  img.alt = item.nome + " - " + rotulo;
-  img.loading = idx < 6 ? "eager" : "lazy";
-  img.decoding = "async";
-  aplicarFallback(img);
-
-  card.append(img);
-  card.addEventListener("click", () => abrirModal(item.ci, item.ai, card));
-  card.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " "){
-      e.preventDefault();
-      abrirModal(item.ci, item.ai, card);
-    }
-  });
-  container.appendChild(card);
-});
-
-/* ============================================
-   RENDER — SEÇÃO KITS
-   ============================================ */
-const kitsLista = document.getElementById("kitsLista");
-cortes.forEach(corte => {
-  const itens = (corte.kit || []).filter(k => k && k.nome && k.link);
-  if (!itens.length) return;
-
-  const bloco = document.createElement("div");
-  bloco.className = "kit-bloco";
-
-  const titulo = document.createElement("div");
-  titulo.className = "kit-bloco-titulo";
-  titulo.textContent = corte.nome;
-
-  const desc = document.createElement("div");
-  desc.className = "kit-bloco-desc";
-  desc.textContent = corte.descricao;
-
-  const fio = document.createElement("span");
-  fio.className = "kit-bloco-divider";
-
-  const lista = document.createElement("div");
-  lista.className = "kit-bloco-lista";
-  itens.forEach(k => {
-    const a = document.createElement("a");
-    a.className = "kit-link";
-    a.href = k.link;
-    a.target = "_blank";
-    a.rel = "sponsored noopener noreferrer";
-
-    const nome = document.createElement("span");
-    nome.className = "kit-nome";
-    nome.textContent = k.nome;
-    a.appendChild(nome);
-
-    if (k.razao){
-      const razao = document.createElement("span");
-      razao.className = "kit-razao";
-      razao.textContent = k.razao;
-      a.appendChild(razao);
-    }
-    lista.appendChild(a);
-  });
-
-  bloco.append(titulo, desc, fio, lista);
-  kitsLista.appendChild(bloco);
-});
-
-/* ============================================
-   NAVEGAÇÃO ENTRE SEÇÕES
-   ============================================ */
-const secoes = document.querySelectorAll(".secao");
-const navBtns = document.querySelectorAll(".drawer-nav button");
-
-function irParaSecao(nome){
-  secoes.forEach(s => s.classList.toggle("ativa", s.id === "secao-" + nome));
-  navBtns.forEach(b => b.classList.toggle("ativo", b.dataset.secao === nome));
-  window.scrollTo({top:0, behavior:"smooth"});
-}
-
-navBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    irParaSecao(btn.dataset.secao);
-    fecharDrawer();
-  });
-});
-
-document.getElementById("brandHome").addEventListener("click", () => {
-  irParaSecao("cortes");
-  window.scrollTo({top:0, behavior:"smooth"});
-});
-
-/* ============================================
-   DRAWER
-   ============================================ */
-const menuBtn = document.getElementById("menuBtn");
-const drawer = document.getElementById("drawer");
-const drawerOverlay = document.getElementById("drawerOverlay");
-const drawerFechar = document.getElementById("drawerFechar");
-
-function abrirDrawer(){
-  drawer.classList.add("aberto");
-  drawer.setAttribute("aria-hidden", "false");
-  drawerOverlay.hidden = false;
-  requestAnimationFrame(() => drawerOverlay.classList.add("ativo"));
-  menuBtn.setAttribute("aria-expanded", "true");
-  document.body.style.overflow = "hidden";
-  drawerFechar.focus();
-}
-function fecharDrawer(){
-  if (!drawer.classList.contains("aberto")) return;
-  drawer.classList.remove("aberto");
-  drawer.setAttribute("aria-hidden", "true");
-  drawerOverlay.classList.remove("ativo");
-  menuBtn.setAttribute("aria-expanded", "false");
-  document.body.style.overflow = "";
-  setTimeout(() => { drawerOverlay.hidden = true; }, 350);
-}
-menuBtn.addEventListener("click", abrirDrawer);
-drawerFechar.addEventListener("click", fecharDrawer);
-drawerOverlay.addEventListener("click", fecharDrawer);
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && drawer.classList.contains("aberto")) fecharDrawer();
-});
-
-/* ============================================
-   MODAL
-   ============================================ */
-const modal       = document.getElementById("modal");
-const imgModal    = document.getElementById("imgModal");
-const modalTitulo = document.getElementById("modalTitulo");
-const modalDesc   = document.getElementById("modalDesc");
-const modalThumbs = document.getElementById("modalThumbs");
-const modalStage  = document.getElementById("modalStage");
-const btnFechar   = document.getElementById("fecharModal");
-const btnPrev     = document.getElementById("btnPrev");
-const btnNext     = document.getElementById("btnNext");
-
-let corteAtual = 0, anguloAtual = 0, ultimoFoco = null;
+let filtro = "Todos";
+let aba = "cortes";
+let abertaId = null;
+let anguloAtual = 0;
+let lastFocus = null;
 let zoomAtivo = false;
-aplicarFallback(imgModal);
+let panX = 0, panY = 0, panStartX = 0, panStartY = 0, panOrigX = 0, panOrigY = 0, arrastandoImg = false;
+const ZOOM_SCALE = 2.2;
 
-function isDesktopPointer(){
-  return window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+const $ = id => document.getElementById(id);
+const grid = $("grid"), chipsEl = $("chips"), sheet = $("sheet"), veil = $("veil"), toastEl = $("toast");
+
+/* ---------- Utilitários ---------- */
+function el(tag, attrs, ...kids){
+  const n = document.createElement(tag);
+  for (const k in (attrs||{})){
+    if (k === "class") n.className = attrs[k];
+    else if (k === "text") n.textContent = attrs[k];
+    else if (k === "html") n.innerHTML = attrs[k];
+    else n.setAttribute(k, attrs[k]);
+  }
+  kids.flat().forEach(c => c && n.appendChild(typeof c === "string" ? document.createTextNode(c) : c));
+  return n;
+}
+let toastTimer;
+function toast(msg){
+  toastEl.textContent = msg; toastEl.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
+}
+const heartSvg = '<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 5 6.1 5c2.1 0 3.6 1.2 4.4 2.5h3C14.3 6.2 15.8 5 17.9 5c3.4 0 5.2 3.4 3.7 6.8C19.5 16.4 12 21 12 21z" stroke-linejoin="round"/></svg>';
+const closeSvg = '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+
+function media(c, i, angulo){
+  const box = el("span", {class:"photo"});
+  const src = angulo ? c.imagens[angulo] : c.imagens.frente;
+  if (c.img || src){
+    const im = el("img", {src: src || c.img, alt:c.nome, loading:"lazy"});
+    im.onerror = () => { box.innerHTML = portrait(c, i); };
+    box.appendChild(im);
+  } else {
+    box.innerHTML = portrait(c, i);
+  }
+  return box;
 }
 
-let uiTimer = null;
-function mostrarUI(){
-  if (!isDesktopPointer()) return;
-  modal.classList.remove("ui-oculta");
-  clearTimeout(uiTimer);
-  uiTimer = setTimeout(() => {
-    if (modal.classList.contains("ativo")) modal.classList.add("ui-oculta");
-  }, 2000);
+/* ---------- Filtros ---------- */
+function renderChips(){
+  chipsEl.innerHTML = "";
+  chipsEl.style.display = aba === "cortes" ? "flex" : "none";
+  FILTROS.forEach(f => {
+    const b = el("button", {class:"chip", "aria-pressed": String(f === filtro), text:f});
+    b.onclick = () => { filtro = f; renderChips(); renderGrid(); };
+    chipsEl.appendChild(b);
+  });
 }
 
-function toggleZoom(){
-  zoomAtivo = !zoomAtivo;
-  imgModal.classList.toggle("zoom", zoomAtivo);
-  modalStage.classList.toggle("zoom-ativo", zoomAtivo);
+/* ---------- Grade ---------- */
+function renderGrid(){
+  grid.innerHTML = "";
+  let lista = CORTES.map((c, i) => ({c, i}));
+  if (aba === "fav") lista = lista.filter(x => favs.includes(x.c.id));
+  else if (filtro !== "Todos") lista = lista.filter(x => x.c.cat === filtro);
+
+  if (!lista.length){
+    grid.appendChild(el("div", {class:"empty"},
+      el("b", {text: aba === "fav" ? "Nenhum corte guardado ainda" : "Nenhum corte nesta categoria"}),
+      el("span", {text: aba === "fav" ? "Toque no coração de um corte para guardá-lo aqui." : "Escolha outra categoria no filtro acima."})
+    ));
+    return;
+  }
+  lista.forEach(({c, i}, pos) => {
+    const card = el("button", {class:"card", "aria-label":c.nome + ". Ver detalhes"});
+    card.style.setProperty("--i", pos);
+    const ph = media(c, i, "frente");
+    ph.appendChild(el("span", {class:"cap"}, c.nome, el("small", {text:c.tone})));
+    const h = el("span", {class:"heart" + (favs.includes(c.id) ? " on" : ""), html:heartSvg, "aria-hidden":"true"});
+    ph.appendChild(h);
+    card.appendChild(ph);
+    card.onclick = () => abrir(c.id);
+    grid.appendChild(card);
+  });
 }
 
-function resetZoom(){
-  if (!zoomAtivo) return;
-  zoomAtivo = false;
-  imgModal.classList.remove("zoom");
-  modalStage.classList.remove("zoom-ativo");
+/* ---------- Favoritos ---------- */
+function alternarFav(id){
+  const nome = CORTES.find(c => c.id === id).nome;
+  if (favs.includes(id)){ favs = favs.filter(x => x !== id); toast(nome + " removido dos favoritos"); }
+  else { favs.push(id); toast(nome + " guardado nos favoritos"); }
+  saveFavs(); atualizarAbaFav(); renderGrid();
+  const fb = sheet.querySelector(".round.fav");
+  if (fb){ fb.classList.toggle("on", favs.includes(id)); fb.setAttribute("aria-pressed", String(favs.includes(id))); }
+}
+function atualizarAbaFav(){
+  $("tabFav").textContent = favs.length ? "Favoritos (" + favs.length + ")" : "Favoritos";
 }
 
-function mostrar(ci, ai, animar){
-  corteAtual = ci;
-  anguloAtual = (ai + ORDEM_ANGULOS.length) % ORDEM_ANGULOS.length;
-  const corte = cortes[corteAtual];
+/* ---------- Painel de detalhe ---------- */
+function abrir(id){
+  const i = CORTES.findIndex(c => c.id === id), c = CORTES[i];
+  abertaId = id; anguloAtual = 0; lastFocus = document.activeElement;
+  resetZoom();
+  sheet.innerHTML = "";
+
+  const hero = el("div", {class:"hero"});
+  hero.appendChild(media(c, i, "frente"));
+
+  const close = el("button", {class:"round close", "aria-label":"Fechar", html:closeSvg});
+  const fav = el("button", {class:"round fav" + (favs.includes(id) ? " on" : ""), "aria-label":"Guardar nos favoritos",
+                            "aria-pressed":String(favs.includes(id)), html:heartSvg});
+  const prev = el("button", {class:"nav-btn prev", "aria-label":"Ângulo anterior", html:"&#8249;"});
+  const next = el("button", {class:"nav-btn next", "aria-label":"Próximo ângulo", html:"&#8250;"});
+
+  close.onclick = fechar;
+  fav.onclick = () => alternarFav(id);
+  prev.onclick = (e) => { e.stopPropagation(); trocarAngulo(-1); };
+  next.onclick = (e) => { e.stopPropagation(); trocarAngulo(1); };
+  hero.append(close, fav, prev, next);
+  hero.onclick = (e) => {
+    // não dispara zoom se o clique foi em botão de navegação/fechar/favoritar
+    if (e.target.closest(".round, .nav-btn")) return;
+    toggleZoom();
+  };
+
+  const body = el("div", {class:"body"},
+    el("h2", {id:"sTitle", text:c.nome}),
+    el("p", {class:"tone", text:c.tone}),
+    el("h3", {text:"Sobre o corte"}), el("p", {id:"sDesc", text:c.descricoes.frente}),
+    el("h3", {text:"Kit para manter em casa"})
+  );
+
+  const kitBox = el("div", {class:"kit-box"});
+  (c.kit || []).forEach(k => {
+    const a = el("a", {class:"kit-item", href:k.link, target:"_blank", rel:"sponsored noopener noreferrer"});
+    a.appendChild(el("span", {class:"kit-nome", text:k.nome}));
+    if (k.razao) a.appendChild(el("span", {class:"kit-razao", text:k.razao}));
+    kitBox.appendChild(a);
+  });
+  kitBox.appendChild(el("p", {class:"kit-aviso", text:"Links de afiliado: se você comprar por eles, posso receber uma comissão — sem custo extra para você."}));
+  body.appendChild(kitBox);
+
+  // CTA final — só aparece se existir kit
+  const primeiroKit = (c.kit && c.kit[0] && c.kit[0].link) ? c.kit[0].link : null;
+  if (primeiroKit){
+    const cta = el("a", {class:"cta", href:primeiroKit, target:"_blank", rel:"sponsored noopener noreferrer", text:"Ver o kit no Mercado Livre"});
+    body.appendChild(cta);
+  }
+  body.appendChild(el("p", {class:"note", text:"Salve este corte e mostre no salão. Depois mantenha o resultado em casa."}));
+
+  sheet.append(hero, body);
+  sheet.hidden = false;
+  requestAnimationFrame(() => { sheet.classList.add("open"); veil.classList.add("open"); close.focus(); });
+  document.body.classList.add("lock");
+  sheet.scrollTop = 0;
+}
+function fechar(){
+  if (!abertaId) return;
+  resetZoom();
+  abertaId = null;
+  sheet.classList.remove("open"); veil.classList.remove("open");
+  document.body.classList.remove("lock");
+  setTimeout(() => { if (!abertaId) sheet.hidden = true; }, 400);
+  if (lastFocus) lastFocus.focus();
+}
+veil.onclick = fechar;
+
+/* ---------- Troca de ângulo dentro do sheet ---------- */
+function trocarAngulo(delta){
+  const c = CORTES.find(x => x.id === abertaId);
+  if (!c) return;
+  resetZoom();
+  anguloAtual = (anguloAtual + delta + ORDEM_ANGULOS.length) % ORDEM_ANGULOS.length;
   const angulo = ORDEM_ANGULOS[anguloAtual];
-  const rotulo = ANGULOS[angulo].label;
+  const hero = sheet.querySelector(".hero");
+  const photoBox = hero.querySelector(".photo");
+  const imgEl = photoBox.querySelector("img");
+  const novaSrc = c.imagens[angulo];
 
   const trocar = () => {
-    imgModal.src = corte.imagens[angulo];
-    imgModal.alt = corte.nome + " - " + rotulo;
-    imgModal.classList.remove("trocando");
+    if (imgEl){
+      imgEl.src = novaSrc;
+      imgEl.classList.remove("trocando");
+    } else {
+      photoBox.innerHTML = "";
+      const novo = media(c, CORTES.findIndex(x => x.id === c.id), angulo);
+      photoBox.replaceWith(novo);
+    }
+    const desc = sheet.querySelector("#sDesc");
+    if (desc) desc.textContent = c.descricoes[angulo] || c.resumo;
   };
-  if (animar){
-    imgModal.classList.add("trocando");
+
+  if (imgEl){
+    imgEl.classList.add("trocando");
     setTimeout(trocar, 160);
   } else {
     trocar();
   }
+}
 
-  modalTitulo.textContent = corte.nome;
-  const tag = document.createElement("span");
-  tag.className = "angle";
-  tag.textContent = rotulo;
-  modalTitulo.appendChild(tag);
-
-  const descricaoPorAngulo = corte.descricoes && corte.descricoes[angulo];
-  modalDesc.textContent = descricaoPorAngulo || corte.descricao;
-
-  const itensKit = (corte.kit || []).filter(k => k && k.nome && k.link);
-  const kitBox = document.getElementById("modalKit");
-  const kitLista = document.getElementById("modalKitLista");
-  kitLista.replaceChildren();
-  itensKit.forEach(k => {
-    const a = document.createElement("a");
-    a.className = "kit-link";
-    a.href = k.link;
-    a.target = "_blank";
-    a.rel = "sponsored noopener noreferrer";
-
-    const nome = document.createElement("span");
-    nome.className = "kit-nome";
-    nome.textContent = k.nome;
-    a.appendChild(nome);
-
-    if (k.razao){
-      const razao = document.createElement("span");
-      razao.className = "kit-razao";
-      razao.textContent = k.razao;
-      a.appendChild(razao);
-    }
-    kitLista.appendChild(a);
-  });
-  kitBox.hidden = itensKit.length === 0;
-  document.getElementById("modalCta").hidden = itensKit.length === 0;
-
-  if (modalThumbs.children.length !== ORDEM_ANGULOS.length){
-    modalThumbs.replaceChildren();
-    ORDEM_ANGULOS.forEach((a, i) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "thumb";
-      const t = document.createElement("img");
-      t.alt = "";
-      aplicarFallback(t);
-      b.appendChild(t);
-      b.addEventListener("click", () => mostrar(corteAtual, i, true));
-      modalThumbs.appendChild(b);
-    });
+/* ---------- Zoom ---------- */
+function toggleZoom(){
+  if (!abertaId) return;
+  const hero = sheet.querySelector(".hero");
+  const photo = hero.querySelector(".photo");
+  if (!photo) return;
+  zoomAtivo = !zoomAtivo;
+  hero.classList.toggle("zoom-ativo", zoomAtivo);
+  if (zoomAtivo){
+    panX = 0; panY = 0;
+    photo.style.transform = `scale(${ZOOM_SCALE})`;
+  } else {
+    photo.style.transform = "";
+    panX = 0; panY = 0;
   }
-  [...modalThumbs.children].forEach((b, i) => {
-    const a = ORDEM_ANGULOS[i];
-    b.setAttribute("aria-label", corte.nome + " - " + ANGULOS[a].label);
-    const t = b.querySelector("img");
-    const novoSrc = corte.imagens[a];
-    if (t.getAttribute("src") !== novoSrc) t.src = novoSrc;
-    if (i === anguloAtual) b.setAttribute("aria-current", "true");
-    else b.removeAttribute("aria-current");
-  });
+}
+function resetZoom(){
+  zoomAtivo = false;
+  const hero = sheet.querySelector(".hero");
+  if (!hero) return;
+  hero.classList.remove("zoom-ativo");
+  const photo = hero.querySelector(".photo");
+  if (photo){ photo.classList.remove("arrastando"); photo.style.transform = ""; }
+  panX = 0; panY = 0;
+}
+function startPan(e){
+  if (!zoomAtivo) return;
+  const hero = sheet.querySelector(".hero");
+  const photo = hero.querySelector(".photo");
+  if (!photo) return;
+  arrastandoImg = true;
+  const t = e.touches ? e.touches[0] : e;
+  panStartX = t.clientX; panStartY = t.clientY;
+  panOrigX = panX; panOrigY = panY;
+  photo.classList.add("arrastando");
+  photo.style.transition = "none";
+  e.preventDefault();
+}
+function movePan(e){
+  if (!arrastandoImg) return;
+  const hero = sheet.querySelector(".hero");
+  const photo = hero.querySelector(".photo");
+  if (!photo) return;
+  const t = e.touches ? e.touches[0] : e;
+  panX = panOrigX + (t.clientX - panStartX);
+  panY = panOrigY + (t.clientY - panStartY);
+  photo.style.transform = `scale(${ZOOM_SCALE}) translate(${panX / ZOOM_SCALE}px, ${panY / ZOOM_SCALE}px)`;
+  e.preventDefault();
+}
+function endPan(){
+  if (!arrastandoImg) return;
+  arrastandoImg = false;
+  const photo = sheet.querySelector(".hero .photo");
+  if (photo){ photo.classList.remove("arrastando"); photo.style.transition = "transform .3s ease"; }
 }
 
-function abrirModal(ci, ai, gatilho){
-  ultimoFoco = gatilho || document.activeElement;
-  mostrar(ci, ai, false);
-  modal.classList.add("ativo");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-  btnFechar.focus();
-  mostrarUI();
-}
+sheet.addEventListener("mousedown", startPan);
+sheet.addEventListener("touchstart", startPan, {passive:false});
+window.addEventListener("mousemove", movePan);
+window.addEventListener("touchmove", movePan, {passive:false});
+window.addEventListener("mouseup", endPan);
+window.addEventListener("touchend", endPan);
+window.addEventListener("touchcancel", endPan);
 
-function closeModal(){
-  if (!modal.classList.contains("ativo")) return;
-  resetZoom();
-  modal.classList.remove("ativo");
-  modal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-  clearTimeout(uiTimer);
-  if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
-}
-
-btnFechar.addEventListener("click", closeModal);
-btnPrev.addEventListener("click", () => mostrar(corteAtual, anguloAtual - 1, true));
-btnNext.addEventListener("click", () => mostrar(corteAtual, anguloAtual + 1, true));
-
-modal.addEventListener("click", (e) => {
-  if (!isDesktopPointer()) return;
-  if (e.target === modal || e.target === modalStage) closeModal();
-});
-
-imgModal.addEventListener("click", (e) => {
-  e.stopPropagation();
-  toggleZoom();
-});
-
-modal.addEventListener("mousemove", mostrarUI);
-modal.addEventListener("touchstart", mostrarUI, {passive:true});
-
-document.addEventListener("keydown", (e) => {
-  if (!modal.classList.contains("ativo")) return;
-  mostrarUI();
+/* ---------- Teclado ---------- */
+addEventListener("keydown", e => {
   if (e.key === "Escape"){
     if (zoomAtivo){ resetZoom(); return; }
-    closeModal();
-    return;
+    fechar();
   }
-  if (e.key === "ArrowLeft"){ mostrar(corteAtual, anguloAtual - 1, true); return; }
-  if (e.key === "ArrowRight"){ mostrar(corteAtual, anguloAtual + 1, true); return; }
+  if (!abertaId) return;
+  if (e.key === "ArrowLeft") trocarAngulo(-1);
+  if (e.key === "ArrowRight") trocarAngulo(1);
   if (e.key === "Tab"){
-    const foc = modal.querySelectorAll("button");
-    if (!foc.length) return;
-    const primeiro = foc[0], ultimo = foc[foc.length - 1];
-    if (e.shiftKey && document.activeElement === primeiro){ e.preventDefault(); ultimo.focus(); }
-    else if (!e.shiftKey && document.activeElement === ultimo){ e.preventDefault(); primeiro.focus(); }
+    const f = sheet.querySelectorAll("button, a[href]");
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
   }
 });
 
-let toqueX = null;
-modalStage.addEventListener("touchstart", (e) => {
-  if (zoomAtivo) return;
+/* ---------- Swipe no hero (mobile) ---------- */
+let toqueX = null, toqueY = null;
+sheet.addEventListener("touchstart", (e) => {
+  if (zoomAtivo || arrastandoImg) return;
+  if (!e.target.closest(".hero")) return;
   toqueX = e.touches[0].clientX;
-}, {passive:true});
-modalStage.addEventListener("touchend", (e) => {
-  if (zoomAtivo || toqueX === null) return;
-  const dx = e.changedTouches[0].clientX - toqueX;
-  toqueX = null;
-  if (Math.abs(dx) > 50) mostrar(corteAtual, anguloAtual + (dx < 0 ? 1 : -1), true);
-}, {passive:true});
-
-let toqueY = null;
-modalStage.addEventListener("touchstart", (e) => {
-  if (zoomAtivo) return;
   toqueY = e.touches[0].clientY;
 }, {passive:true});
-modalStage.addEventListener("touchend", (e) => {
-  if (zoomAtivo || toqueY === null) return;
+sheet.addEventListener("touchend", (e) => {
+  if (zoomAtivo || toqueX === null) return;
+  const dx = e.changedTouches[0].clientX - toqueX;
   const dy = e.changedTouches[0].clientY - toqueY;
-  toqueY = null;
-  if (dy > 90) closeModal();
+  toqueX = null; toqueY = null;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2){
+    trocarAngulo(dx < 0 ? 1 : -1);
+  }
 }, {passive:true});
 
-/* ============================================
-   LOADING
-   ============================================ */
+/* ---------- Abas ---------- */
+function trocarAba(a){
+  aba = a;
+  $("tabCortes").setAttribute("aria-pressed", String(a === "cortes"));
+  $("tabFav").setAttribute("aria-pressed", String(a === "fav"));
+  renderChips(); renderGrid();
+  scrollTo({top:0, behavior:"smooth"});
+}
+$("tabCortes").onclick = () => trocarAba("cortes");
+$("tabFav").onclick   = () => trocarAba("fav");
+
+/* ---------- Barra flutuante ---------- */
+const nav = $("nav"); let lastY = scrollY, ticking = false;
+addEventListener("scroll", () => {
+  if (ticking) return; ticking = true;
+  requestAnimationFrame(() => {
+    const y = scrollY;
+    if (y > lastY + 6 && y > 140) nav.classList.add("hide");
+    else if (y < lastY - 6) nav.classList.remove("hide");
+    lastY = y; ticking = false;
+  });
+}, {passive:true});
+
+/* ---------- Loading ---------- */
 document.addEventListener("DOMContentLoaded", function(){
-  const ls  = document.getElementById("loadingScreen");
-  const ll  = document.getElementById("loadingLogo");
-  const lb  = document.getElementById("loadingBar");
-  const lbc = document.getElementById("loadingBarContainer");
-  const lp  = document.getElementById("loadingPercent");
-  const mc  = document.getElementById("mainContent");
-
-  const primeiras = imagensSoltas.slice(0, 6);
+  const ls = $("loadingScreen"), lb = $("loadingBar"), lp = $("loadingPercent"), mc = $("mainContent");
+  const primeiras = CORTES.slice(0, 6).map(c => c.imagens.frente);
   let prontas = 0, tempoMinimo = false, terminou = false;
-
   function atualizar(){
     const pct = Math.round((prontas / primeiras.length) * 100);
-    lb.style.width = pct + "%";
-    lp.textContent = pct + "%";
+    lb.style.width = pct + "%"; lp.textContent = pct + "%";
     if (prontas >= primeiras.length && tempoMinimo) finish();
   }
-
   function finish(){
-    if (terminou) return;
-    terminou = true;
-    lb.style.width = "100%";
-    lp.textContent = "100%";
-    lbc.style.opacity = "0";
-    lp.style.opacity = "0";
-    setTimeout(() => ll.classList.add("zoom-out"), 300);
-    setTimeout(() => {
-      ls.classList.add("hidden");
-      mc.classList.add("visible");
-    }, 1200);
+    if (terminou) return; terminou = true;
+    lb.style.width = "100%"; lp.textContent = "100%";
+    setTimeout(() => { ls.classList.add("hidden"); mc.classList.add("visible"); }, 600);
   }
-
-  primeiras.forEach(item => {
+  primeiras.forEach(src => {
     const im = new Image();
     const ok = () => { prontas++; atualizar(); };
-    im.onload = ok;
-    im.onerror = ok;
-    im.src = item.src;
+    im.onload = ok; im.onerror = ok; im.src = src;
   });
-
-  setTimeout(() => { tempoMinimo = true; atualizar(); }, 1400);
-  setTimeout(finish, 4000);
+  setTimeout(() => { tempoMinimo = true; atualizar(); }, 1000);
+  setTimeout(finish, 3500);
 });
-</script>
 
-<!-- ============================================
-     PATCH FINAL — CORRIGE QUALQUER EXEMPLO* E AVISA NO CONSOLE
-     ============================================ -->
-<script>
-(function(){
-  var REAL = {
-    kerastase:   "https://meli.la/1MwSY7v",
-    joico:       "https://meli.la/2x9xqBe",
-    expert:      "https://meli.la/2nmeunk",
-    ferramentas: "https://meli.la/2H5F4mn",
-    keune:       "https://meli.la/1GbiW7M",
-    inoa:        "https://meli.la/28LpPj2"
-  };
-
-  function escolherLink(txt){
-    var t = (txt || "").toLowerCase();
-    if (/kerastase|elixir ultime|genesis|nutritive|resistance/.test(t)) return REAL.kerastase;
-    if (/joico|k-?pak|moisture recovery|máscara intensa|mascara intensa/.test(t)) return REAL.joico;
-    if (/expert|vitamino|absolut repair|nutrioil|pro longer/.test(t)) return REAL.expert;
-    if (/keune/.test(t)) return REAL.keune;
-    if (/inoa|dia.?color/.test(t)) return REAL.inoa;
-    if (/babyliss|taiff|escova|difusor|m[aá]quina|tesoura|wahl|ferramenta/.test(t)) return REAL.ferramentas;
-    return null;
-  }
-
-  function corrigir(){
-    var links = document.querySelectorAll("a.kit-link, a[href*='EXEMPLO'], a[href*='mercadolivre.com.br/EXEMPLO']");
-    var corrigidos = 0;
-    links.forEach(function(a){
-      var novo = escolherLink(a.textContent);
-      if (novo && a.href !== novo){
-        a.setAttribute("href", novo);
-        corrigidos++;
-      }
-    });
-    return corrigidos;
-  }
-
-  function verificar(){
-    var temExemplo = document.body.innerHTML.indexOf("EXEMPLO") !== -1;
-    console.log("%c[HairOS] Verificação de links", "color:#d4b07a;font-weight:bold");
-    console.log("  ML_LINKS carregado:", typeof ML_LINKS !== "undefined" ? "SIM" : "NÃO");
-    if (typeof ML_LINKS !== "undefined") console.log("  Links:", ML_LINKS);
-    console.log("  Contém 'EXEMPLO' no HTML?", temExemplo ? "⚠️ SIM" : "✅ NÃO");
-    var c = corrigir();
-    if (c > 0) console.log("  Links corrigidos agora:", c);
-    console.log("  Pronto. Se ainda abrir EXEMPLO, há outro arquivo na pasta.");
-  }
-
-  if (document.readyState === "complete") verificar();
-  else window.addEventListener("load", verificar);
-
-  try {
-    var obs = new MutationObserver(function(){ corrigir(); });
-    obs.observe(document.body, { childList: true, subtree: true });
-  } catch(e) {}
-})();
+/* ---------- Início ---------- */
+atualizarAbaFav(); renderChips(); renderGrid();
 </script>
 </body>
 </html>
