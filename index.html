@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -36,6 +35,7 @@
   @keyframes logoZoomOut{0%{transform:scale(1);opacity:1}100%{transform:scale(8);opacity:0}}
   @keyframes softGlowGold{0%,100%{text-shadow:0 0 4px rgba(232,213,168,.45),0 0 10px rgba(201,169,110,.25)}50%{text-shadow:0 0 8px rgba(232,213,168,.75),0 0 18px rgba(201,169,110,.4)}}
   @keyframes fadeSection{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes sheetUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
 
   /* ========== LOADING ========== */
   .loading-screen{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s cubic-bezier(.4,0,.2,1),visibility 1s}
@@ -126,16 +126,9 @@
   .card .h-xs{height:150px}.card .h-sm{height:200px}.card .h-md{height:260px}.card .h-lg{height:320px}.card .h-xl{height:380px}.card .h-xxl{height:440px}
   @media (min-width:600px){.card .h-xs{height:170px}.card .h-sm{height:230px}.card .h-md{height:300px}.card .h-lg{height:370px}.card .h-xl{height:440px}.card .h-xxl{height:520px}}
 
-  .card-label{position:absolute;bottom:12px;left:50%;transform:translateX(-50%) translateY(10px);background:rgba(10,8,8,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border-gold);padding:6px 16px;border-radius:24px;white-space:nowrap;opacity:0;transition:all var(--transition);font-family:'Playfair Display',serif;font-style:italic;font-size:.78rem;font-weight:600;letter-spacing:.02em;pointer-events:none;color:var(--text);max-width:90%;overflow:hidden;text-overflow:ellipsis}
-  .card-label .angle{color:var(--gold);font-family:'Inter',sans-serif;font-style:normal;font-size:.62rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;margin-left:8px;opacity:.85}
   @media (hover:hover){
     .card:hover,.card:focus-within{border-color:var(--border-gold);transform:translateY(-6px) scale(1.02);box-shadow:0 16px 48px rgba(0,0,0,.5);z-index:10}
     .card:hover img{transform:scale(1.06)}
-    .card:hover .card-label,.card:focus-within .card-label{opacity:1;transform:translateX(-50%) translateY(0);background:rgba(10,8,8,.95);border-color:var(--gold)}
-  }
-  @media (hover:none){
-    .card-label{opacity:1;transform:translateX(-50%) translateY(0);font-size:.72rem;padding:5px 12px}
-    .card-label .angle{display:none}
   }
 
   /* ========== SEÇÃO KITS ========== */
@@ -170,6 +163,7 @@
   /* ========== MODAL ========== */
   .modal{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:68px 16px 18px;background:rgba(10,8,8,.98);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:1000;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s}
   .modal.ativo{opacity:1;visibility:visible}
+
   .modal-stage{position:relative;flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;touch-action:pan-y}
   .modal-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;box-shadow:0 0 60px rgba(212,176,122,.25),0 0 120px rgba(0,0,0,.8);transition:opacity .25s ease,transform .35s var(--ease-luxury);cursor:zoom-in}
   .modal-stage img.trocando{opacity:0}
@@ -187,6 +181,7 @@
     backdrop-filter:blur(10px);
     -webkit-backdrop-filter:blur(10px);
     box-shadow:0 0 0 1px rgba(184,58,74,.12), 0 4px 20px rgba(0,0,0,.4);
+    z-index:5;
   }
   .modal-fechar:hover{
     background:rgba(150,35,48,.75);
@@ -213,14 +208,12 @@
   .thumb[aria-current="true"]{opacity:1;border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
   [hidden]{display:none !important}
 
-  /* ===== AUTO-HIDE SIMPLES ===== */
-  .modal-fechar,
-  .modal-nav{
-    transition:opacity .5s ease;
-  }
-  .modal.ui-oculta .modal-fechar,
-  .modal.ui-oculta .modal-nav{
-    opacity:0;
+  /* ===== AUTO-HIDE — SÓ DESKTOP ===== */
+  @media (hover:hover) and (pointer:fine){
+    .modal-fechar,
+    .modal-nav{transition:opacity .5s ease;}
+    .modal.ui-oculta .modal-fechar,
+    .modal.ui-oculta .modal-nav{opacity:0;}
   }
 
   .modal-kit{margin-top:22px;padding-top:20px;border-top:1px solid var(--border)}
@@ -234,6 +227,89 @@
   .modal-aviso{margin-top:14px;font-size:.65rem;color:var(--text-muted);font-weight:300;line-height:1.5;opacity:.8}
   .modal-cta{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);font-family:'Playfair Display',serif;font-style:italic;font-size:.82rem;color:var(--text-sec);font-weight:400;letter-spacing:.01em}
   .modal-cta .gold{color:var(--gold)}
+
+  /* ========== MODAL — MOBILE (bottom sheet) ========== */
+  @media (max-width:699px){
+    .modal{
+      padding:0;
+      gap:0;
+      align-items:stretch;
+      justify-content:flex-end;
+    }
+
+    .modal-stage{
+      position:absolute;
+      inset:0 0 auto 0;
+      height:100%;
+      padding:64px 12px 0;
+    }
+    .modal-stage img{
+      max-height:calc(100dvh - 64px - 40vh);
+      border-radius:10px;
+    }
+
+    .modal-nav{
+      top:auto;
+      bottom:calc(40vh + 14px);
+      transform:none;
+      width:40px;height:40px;
+      background:rgba(10,8,8,.72);
+      border-color:rgba(212,176,122,.35);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+    }
+    .modal-nav.prev{left:10px}
+    .modal-nav.next{right:10px}
+
+    .modal-fechar{
+      top:12px;right:12px;
+      width:40px;height:40px;
+      z-index:5;
+    }
+
+    .modal-info{
+      position:relative;
+      width:100%;
+      max-height:40vh;
+      background:var(--bg-card);
+      border-top:1px solid var(--border-gold);
+      border-radius:18px 18px 0 0;
+      padding:22px 20px calc(20px + env(safe-area-inset-bottom,0px));
+      text-align:center;
+      box-shadow:0 -20px 60px rgba(0,0,0,.55);
+      overscroll-behavior:contain;
+      -webkit-overflow-scrolling:touch;
+      animation:sheetUp .4s var(--ease-luxury);
+    }
+    .modal-info::before{
+      content:'';
+      display:block;
+      width:38px;height:4px;
+      border-radius:4px;
+      background:rgba(212,176,122,.28);
+      margin:-10px auto 14px;
+    }
+
+    .modal-titulo{font-size:1.1rem}
+    .modal-titulo .angle{display:inline-block;margin-left:8px;font-size:.58rem}
+    .modal-desc{font-size:.8rem}
+
+    .modal-thumbs{margin-top:14px;gap:8px}
+    .thumb{width:44px;height:56px;border-radius:8px}
+
+    .modal-kit{margin-top:18px;padding-top:16px}
+    .modal-kit-titulo{font-size:.92rem}
+    .kit-link{padding:11px 14px}
+    .kit-link .kit-nome{font-size:.78rem}
+    .kit-link .kit-razao{font-size:.68rem}
+
+    .modal-cta{font-size:.76rem;margin-top:16px;padding-top:14px}
+  }
+
+  @media (max-width:380px){
+    .modal-info{max-height:44vh;padding:20px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+    .thumb{width:40px;height:52px}
+  }
 
   .footer-mini{text-align:center;margin-top:64px;padding-top:32px;border-top:1px solid var(--border);font-size:.6rem;color:var(--text-muted);letter-spacing:.3em;text-transform:uppercase;font-weight:300;opacity:.5}
   .footer-mini .gold{color:var(--gold);opacity:1}
@@ -292,7 +368,6 @@
 <!-- CONTEÚDO PRINCIPAL -->
 <div class="main-content" id="mainContent">
 
-  <!-- ========== SEÇÃO CORTES ========== -->
   <section class="secao ativa" id="secao-cortes">
     <div class="page-title">
       <h1>Catálogo de Cortes</h1>
@@ -301,7 +376,6 @@
     <main id="catalogo"></main>
   </section>
 
-  <!-- ========== SEÇÃO KITS ========== -->
   <section class="secao" id="secao-kits">
     <div class="page-title">
       <h1>Kits de Produtos</h1>
@@ -314,7 +388,6 @@
     <div class="kits-lista" id="kitsLista"></div>
   </section>
 
-  <!-- ========== SEÇÃO SOBRE ========== -->
   <section class="secao" id="secao-sobre">
     <div class="page-title">
       <h1>Sobre</h1>
@@ -340,7 +413,6 @@
     </div>
   </section>
 
-  <!-- ========== SEÇÃO CONTATO ========== -->
   <section class="secao" id="secao-contato">
     <div class="page-title">
       <h1>Contato</h1>
@@ -533,7 +605,7 @@ function aplicarFallback(img){
 }
 
 /* ============================================
-   RENDER — MOSAICO
+   RENDER — MOSAICO (sem badge sobreposto)
    ============================================ */
 const imagensSoltas = [];
 cortes.forEach((corte, ci) => {
@@ -552,6 +624,7 @@ imagensSoltas.forEach((item, idx) => {
   card.tabIndex = 0;
   card.setAttribute("role", "button");
   card.setAttribute("aria-label", item.nome + " - " + rotulo);
+  card.title = item.nome + " - " + rotulo;
   card.style.animationDelay = (item.delay * 0.04) + "s";
 
   const img = document.createElement("img");
@@ -562,15 +635,7 @@ imagensSoltas.forEach((item, idx) => {
   img.decoding = "async";
   aplicarFallback(img);
 
-  const label = document.createElement("div");
-  label.className = "card-label";
-  label.append(item.nome + " ");
-  const ang = document.createElement("span");
-  ang.className = "angle";
-  ang.textContent = rotulo;
-  label.appendChild(ang);
-
-  card.append(img, label);
+  card.append(img);
   card.addEventListener("click", () => abrirModal(item.ci, item.ai, card));
   card.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " "){
@@ -704,8 +769,14 @@ let corteAtual = 0, anguloAtual = 0, ultimoFoco = null;
 let zoomAtivo = false;
 aplicarFallback(imgModal);
 
+/* Detecta se é dispositivo com mouse/trackpad (auto-hide só nesses) */
+function isDesktopPointer(){
+  return window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+}
+
 let uiTimer = null;
 function mostrarUI(){
+  if (!isDesktopPointer()) return; // mobile: botões sempre visíveis
   modal.classList.remove("ui-oculta");
   clearTimeout(uiTimer);
   uiTimer = setTimeout(() => {
@@ -829,7 +900,12 @@ function closeModal(){
 btnFechar.addEventListener("click", closeModal);
 btnPrev.addEventListener("click", () => mostrar(corteAtual, anguloAtual - 1, true));
 btnNext.addEventListener("click", () => mostrar(corteAtual, anguloAtual + 1, true));
-modal.addEventListener("click", (e) => { if (e.target === modal || e.target === modalStage) closeModal(); });
+
+/* Clique fora: só fecha em desktop (evita fechar sem querer no mobile) */
+modal.addEventListener("click", (e) => {
+  if (!isDesktopPointer()) return;
+  if (e.target === modal || e.target === modalStage) closeModal();
+});
 
 imgModal.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -858,6 +934,9 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+/* ============ GESTOS NO MODAL ============ */
+
+/* Swipe horizontal → troca ângulo */
 let toqueX = null;
 modalStage.addEventListener("touchstart", (e) => {
   if (zoomAtivo) return;
@@ -868,6 +947,19 @@ modalStage.addEventListener("touchend", (e) => {
   const dx = e.changedTouches[0].clientX - toqueX;
   toqueX = null;
   if (Math.abs(dx) > 50) mostrar(corteAtual, anguloAtual + (dx < 0 ? 1 : -1), true);
+}, {passive:true});
+
+/* Swipe vertical pra baixo → fecha (mobile) */
+let toqueY = null;
+modalStage.addEventListener("touchstart", (e) => {
+  if (zoomAtivo) return;
+  toqueY = e.touches[0].clientY;
+}, {passive:true});
+modalStage.addEventListener("touchend", (e) => {
+  if (zoomAtivo || toqueY === null) return;
+  const dy = e.changedTouches[0].clientY - toqueY;
+  toqueY = null;
+  if (dy > 90) closeModal();
 }, {passive:true});
 
 /* ============================================
